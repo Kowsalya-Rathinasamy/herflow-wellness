@@ -17,7 +17,8 @@ HerFlow is an AI-powered wellness platform designed specifically for women juggl
 **Built for:** AI-DLC Month Hackathon - Health & Wellness Track  
 **Developer:** Kowsalya
 
----
+--- 
+![Uploading herflow_poster_elegant_silhouette (1).svg…]()
 
 ## ✨ Key Features
 
