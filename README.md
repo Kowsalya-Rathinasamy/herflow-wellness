@@ -5,7 +5,9 @@
 ![Tests](https://img.shields.io/badge/Tests-226%2F226%20Passing-brightgreen?style=for-the-badge)
 
 > **Your day, held gently.** A wellness automation system that reduces mental load for women managing multiple responsibilities.
+## 🚀 Live Demo
 
+['https://kowsalya-rathinasamy.github.io/herflow-wellness/'] 
 ---
 
 ## 🌸 About HerFlow
@@ -46,12 +48,6 @@ HerFlow is an AI-powered wellness platform designed specifically for women juggl
 - Learning from user behavior
 - Delegation assistance
 - Burnout pattern detection
-
----
-
-## 🚀 Live Demo
-
-https://kowsalya-rathinasamy.github.io/herflow-wellness/ 
 
 ---
 
@@ -270,12 +266,9 @@ Currently using mock Kiro hooks for testing. To integrate real Kiro hooks:
 
 ## 🚀 Deployment
 
-Deploy to any static hosting platform:
+Deploy to static hosting platform:
 
-- **GitHub Pages:** `https://YOUR_USERNAME.github.io/herflow-wellness/`
-- **Netlify:** Drag & drop deployment
-- **Vercel:** Git integration
-- **Cloudflare Pages:** Global CDN
+- **GitHub Pages:** [`https://kowsalya-rathinasamy.github.io/herflow-wellness/']
 
 See `DEPLOYMENT_GUIDE.md` for detailed instructions.
 
