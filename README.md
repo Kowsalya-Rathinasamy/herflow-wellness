@@ -1,4 +1,4 @@
-![herflow_poster_elegant_silhouette](https://github.com/user-attachments/assets/920e8705-2793-4455-8714-72ab7eceb3c9)# HerFlow - Women's Mental Load & Wellness Manager
+![herflow_poster_elegant_silhouette](https://github.com/user-attachments/assets/920e8705-2793-4455-8714-72ab7eceb3c9) # HerFlow - Women's Mental Load & Wellness Manager
 
 ![HerFlow Banner](https://img.shields.io/badge/AI--DLC-Hackathon-pink?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
