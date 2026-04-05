@@ -1,0 +1,3821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HerFlow — Women's Mental Load & Wellness Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #C9707A;
+    --rose-light: #F2DDD5;
+    --rose-pale: #FBF4F1;
+    --sage: #7A9E8E;
+    --sage-light: #D8EBE3;
+    --sage-pale: #F0F7F4;
+    --gold: #C9A96E;
+    --gold-light: #F5EDD8;
+    --ink: #2C2320;
+    --ink-mid: #5A4E4A;
+    --ink-light: #9A8C88;
+    --cream: #FAF7F4;
+    --white: #FFFFFF;
+    --shadow: rgba(44,35,32,0.08);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─────────────────────────────────── */
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid rgba(44,35,32,0.08);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--rose);
+    letter-spacing: -0.02em;
+  }
+  .logo-tag {
+    font-size: 11px;
+    color: var(--ink-light);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .greeting {
+    font-size: 13px;
+    color: var(--ink-mid);
+  }
+  .greeting strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose) 0%, var(--gold) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* ─── NAV ──────────────────────────────────── */
+  .nav-bar {
+    background: var(--white);
+    border-bottom: 1px solid rgba(44,35,32,0.06);
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-light);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active {
+    color: var(--rose);
+    border-bottom-color: var(--rose);
+    font-weight: 500;
+  }
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rose);
+    display: none;
+  }
+  .nav-tab.has-items .nav-dot { display: block; }
+
+  /* ─── MAIN LAYOUT ─────────────────────────── */
+  .main {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: none;
+  }
+  .main.active { display: block; }
+
+  /* ─── SECTION TITLES ──────────────────────── */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 0.4rem;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--ink-light);
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  /* ─── CARDS ────────────────────────────────── */
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.5rem;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 24px var(--shadow); }
+  .card-sm {
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.2rem;
+  }
+
+  /* ─── DASHBOARD (HOME) ────────────────────── */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.4rem 1.6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .stat-card.rose::before { background: var(--rose); }
+  .stat-card.sage::before { background: var(--sage); }
+  .stat-card.gold::before { background: var(--gold); }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-desc {
+    font-size: 12px;
+    color: var(--ink-light);
+  }
+  .stat-trend {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 8px;
+  }
+  .trend-up { background: #FEE2E2; color: #B91C1C; }
+  .trend-down { background: #D1FAE5; color: #065F46; }
+
+  .dashboard-row {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  /* Today's snapshot */
+  .today-card {
+    background: linear-gradient(135deg, var(--rose-pale) 0%, var(--cream) 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(201,112,122,0.15);
+    padding: 1.6rem;
+  }
+  .today-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+  }
+  .today-date {
+    font-size: 12px;
+    color: var(--rose);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .mood-ring {
+    display: flex;
+    gap: 6px;
+  }
+  .mood-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(44,35,32,0.1);
+    background: white;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .mood-btn:hover, .mood-btn.selected {
+    border-color: var(--rose);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(201,112,122,0.25);
+  }
+
+  .priority-list { display: flex; flex-direction: column; gap: 8px; }
+  .priority-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgba(44,35,32,0.06);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .priority-item:hover { border-color: rgba(201,112,122,0.3); }
+  .priority-item.done { opacity: 0.5; }
+  .priority-item.done .pi-text { text-decoration: line-through; }
+  .pi-check {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(44,35,32,0.2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    font-size: 10px;
+  }
+  .priority-item.done .pi-check {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: white;
+  }
+  .pi-text { font-size: 13px; color: var(--ink); flex: 1; }
+  .pi-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .tag-work { background: #EDE9FE; color: #5B21B6; }
+  .tag-home { background: var(--rose-light); color: #9B3042; }
+  .tag-self { background: var(--sage-light); color: #2D6A53; }
+  .tag-family { background: var(--gold-light); color: #8B5E17; }
+
+  /* Load meter */
+  .load-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.6rem;
+  }
+  .load-meter {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 1rem auto;
+  }
+  .load-svg { transform: rotate(-90deg); }
+  .load-bg { fill: none; stroke: var(--rose-light); stroke-width: 8; }
+  .load-fg { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+  .load-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .load-pct {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .load-sub { font-size: 10px; color: var(--ink-light); }
+  .load-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+  .lb-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .lb-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .lb-label { flex: 1; color: var(--ink-mid); }
+  .lb-bar-wrap {
+    width: 60px;
+    height: 4px;
+    background: rgba(44,35,32,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .lb-bar { height: 100%; border-radius: 2px; }
+  .lb-pct { color: var(--ink-light); min-width: 28px; text-align: right; }
+
+  /* ─── AI COMPANION ────────────────────────── */
+  .ai-panel {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(44,35,32,0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 520px;
+  }
+  .ai-header {
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid rgba(44,35,32,0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(90deg, var(--rose-pale), white);
+  }
+  .ai-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--rose);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .ai-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .ai-status { font-size: 11px; color: var(--sage); display: flex; align-items: center; gap: 4px; }
+  .ai-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+  }
+  .ai-messages::-webkit-scrollbar { width: 4px; }
+  .ai-messages::-webkit-scrollbar-track { background: transparent; }
+  .ai-messages::-webkit-scrollbar-thumb { background: rgba(44,35,32,0.1); border-radius: 2px; }
+
+  .msg {
+    display: flex;
+    gap: 8px;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .msg.ai .msg-bubble {
+    background: var(--rose-pale);
+    color: var(--ink);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.user .msg-bubble {
+    background: var(--rose);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .msg-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+  .msg.ai .msg-icon { background: var(--rose-light); }
+  .msg.user .msg-icon { background: rgba(201,112,122,0.3); }
+
+  .ai-suggestions {
+    padding: 0.8rem 1.2rem;
+    border-top: 1px solid rgba(44,35,32,0.06);
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .suggestion-chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(201,112,122,0.3);
+    font-size: 12px;
+    color: var(--rose);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: white;
+  }
+  .suggestion-chip:hover { background: var(--rose-pale); }
+
+  .ai-input-row {
+    padding: 0.8rem 1.2rem;
+    border-top: 1px solid rgba(44,35,32,0.06);
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+  .ai-input {
+    flex: 1;
+    border: 1px solid rgba(44,35,32,0.12);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--cream);
+    resize: none;
+    min-height: 38px;
+    max-height: 100px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .ai-input:focus { border-color: var(--rose); background: white; }
+  .ai-send {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--rose);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .ai-send:hover { background: #B85F69; transform: scale(1.05); }
+
+  /* ─── MENTAL LOAD TRACKER ─────────────────── */
+  .load-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .load-category {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid rgba(44,35,32,0.07);
+    overflow: hidden;
+  }
+  .lc-header {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .lc-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .lc-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .lc-count {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink-mid);
+  }
+  .lc-progress {
+    height: 3px;
+    background: rgba(44,35,32,0.06);
+  }
+  .lc-bar { height: 100%; transition: width 0.6s ease; }
+  .lc-items { padding: 10px 16px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .lc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-mid);
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .lc-item:hover { background: var(--cream); }
+  .lc-checkbox {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    border: 1.5px solid rgba(44,35,32,0.18);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px;
+    transition: all 0.15s;
+  }
+  .lc-item.done .lc-checkbox { background: var(--sage); border-color: var(--sage); color: white; }
+  .lc-item.done span { text-decoration: line-through; opacity: 0.5; }
+  .add-task-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-light);
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    background: none;
+    font-family: var(--font-body);
+    width: 100%;
+    text-align: left;
+  }
+  .add-task-btn:hover { background: var(--cream); color: var(--rose); }
+
+  /* quick-add input inline */
+  .quick-add {
+    display: none;
+    padding: 4px 8px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .quick-add input[type="text"] {
+    flex: 1;
+    border: 1px solid rgba(201,112,122,0.3);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 12px;
+    font-family: var(--font-body);
+    outline: none;
+    color: var(--ink);
+    background: white;
+  }
+  .quick-add input[type="date"] {
+    width: 130px;
+    border: 1px solid rgba(201,112,122,0.3);
+    border-radius: 6px;
+    padding: 4px 6px;
+    font-size: 11px;
+    font-family: var(--font-body);
+    outline: none;
+    color: var(--ink);
+    background: white;
+    cursor: pointer;
+  }
+  .quick-add input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+  .quick-add input[type="date"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 1;
+  }
+  
+  /* Task date badge */
+  .task-date-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 6px;
+    background: var(--gold-light);
+    color: #8B5E17;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  .lc-item.done .task-date-badge {
+    opacity: 0.5;
+  }
+
+  /* delegation panel */
+  .delegation-box {
+    background: linear-gradient(135deg, var(--sage-pale), white);
+    border: 1px solid rgba(122,158,142,0.2);
+    border-radius: 14px;
+    padding: 1.4rem;
+    margin-top: 16px;
+  }
+  .delegate-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--sage);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .delegate-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .delegate-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid rgba(44,35,32,0.06);
+    font-size: 12px;
+  }
+  .delegate-text { color: var(--ink-mid); }
+  .delegate-to {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--sage);
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .delegate-btn {
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(122,158,142,0.4);
+    font-size: 10px;
+    color: var(--sage);
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .delegate-btn:hover { background: var(--sage-light); }
+
+  /* ─── WELLNESS HUB ────────────────────────── */
+  .wellness-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  
+  /* Reminder configuration panel */
+  .reminder-panel {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.4rem;
+    margin-bottom: 16px;
+  }
+  .reminder-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .reminder-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .reminder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .reminder-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: var(--cream);
+    border-radius: 10px;
+    border: 1px solid rgba(44,35,32,0.06);
+    transition: all 0.15s;
+  }
+  .reminder-item:hover {
+    background: var(--rose-pale);
+    border-color: rgba(201,112,122,0.2);
+  }
+  .reminder-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .reminder-activity {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .reminder-schedule {
+    font-size: 11px;
+    color: var(--ink-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .reminder-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .reminder-toggle {
+    width: 36px;
+    height: 20px;
+    border-radius: 10px;
+    background: rgba(44,35,32,0.15);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reminder-toggle.active {
+    background: var(--sage);
+  }
+  .reminder-toggle::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    left: 2px;
+    transition: all 0.2s;
+  }
+  .reminder-toggle.active::after {
+    left: 18px;
+  }
+  .reminder-delete {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(185,28,28,0.1);
+    color: #B91C1C;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .reminder-delete:hover {
+    background: rgba(185,28,28,0.2);
+  }
+  .delete-reminder-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(185,28,28,0.1);
+    color: #B91C1C;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: all 0.15s;
+    font-weight: 300;
+  }
+  .delete-reminder-btn:hover {
+    background: rgba(185,28,28,0.2);
+  }
+  .add-reminder-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--rose);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1.5px dashed rgba(201,112,122,0.3);
+    background: white;
+    font-family: var(--font-body);
+    width: 100%;
+    font-weight: 500;
+  }
+  .add-reminder-btn:hover {
+    background: var(--rose-pale);
+    border-color: var(--rose);
+  }
+  .reminder-empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--ink-light);
+    font-size: 13px;
+  }
+  .reminder-empty-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+  .wellness-card {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .wellness-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    transform: scaleX(0);
+    transition: transform 0.2s;
+    transform-origin: left;
+  }
+  .wellness-card:hover::after { transform: scaleX(1); }
+  .wellness-card.wc-rose::after { background: var(--rose); }
+  .wellness-card.wc-sage::after { background: var(--sage); }
+  .wellness-card.wc-gold::after { background: var(--gold); }
+  .wc-icon { font-size: 28px; margin-bottom: 10px; }
+  .wc-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .wc-desc { font-size: 12px; color: var(--ink-light); line-height: 1.5; }
+  .wc-streak {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .breathing-widget {
+    background: linear-gradient(135deg, #FBF4F1, #F0F7F4);
+    border-radius: 16px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .breath-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,112,122,0.3), rgba(201,112,122,0.05));
+    margin: 0 auto 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--rose);
+    font-style: italic;
+    transition: transform 4s ease;
+    cursor: pointer;
+    border: 2px solid rgba(201,112,122,0.2);
+  }
+  .breath-circle.inhale { transform: scale(1.4); }
+  .breath-circle.exhale { transform: scale(0.8); }
+  .breath-label { font-size: 13px; color: var(--ink-mid); }
+  .breath-btn {
+    margin-top: 1rem;
+    padding: 8px 24px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rose);
+    color: var(--rose);
+    background: white;
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .breath-btn:hover { background: var(--rose); color: white; }
+
+  .habit-tracker {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.4rem;
+    margin-bottom: 16px;
+  }
+  .habit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(44,35,32,0.05);
+  }
+  .habit-row:last-child { border-bottom: none; }
+  .habit-name { font-size: 13px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .habit-days { display: flex; gap: 4px; }
+  .habit-day {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--cream);
+    border: 1px solid rgba(44,35,32,0.08);
+    font-size: 9px;
+    color: var(--ink-light);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .habit-day.done { background: var(--sage); border-color: var(--sage); color: white; }
+  .habit-day.today { border-color: var(--rose); }
+
+  /* ─── PLANNING ────────────────────────────── */
+  .planning-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+  }
+  .week-view {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid rgba(44,35,32,0.07);
+    overflow: hidden;
+  }
+  .week-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid rgba(44,35,32,0.06);
+  }
+  .week-day {
+    padding: 10px 4px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-light);
+    border-right: 1px solid rgba(44,35,32,0.04);
+  }
+  .week-day:last-child { border-right: none; }
+  .week-day.today-col { background: var(--rose-pale); }
+  .week-day .day-name { font-weight: 500; color: var(--ink-mid); margin-bottom: 2px; }
+  .week-day .day-num {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .week-day.today-col .day-num { color: var(--rose); }
+  .week-slots {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    min-height: 200px;
+    padding: 8px;
+    gap: 4px;
+  }
+  .day-col { display: flex; flex-direction: column; gap: 4px; }
+  .slot {
+    padding: 5px 6px;
+    border-radius: 6px;
+    font-size: 10px;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .slot:hover { filter: brightness(0.95); }
+  .slot-work { background: #EDE9FE; color: #5B21B6; border-color: #7C3AED; }
+  .slot-home { background: var(--rose-light); color: #9B3042; border-color: var(--rose); }
+  .slot-self { background: var(--sage-light); color: #2D6A53; border-color: var(--sage); }
+  .slot-family { background: var(--gold-light); color: #8B5E17; border-color: var(--gold); }
+
+  .ai-plan-box {
+    background: linear-gradient(135deg, var(--rose-pale), var(--sage-pale));
+    border-radius: 14px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1.4rem;
+  }
+  .ai-suggestion {
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(44,35,32,0.05);
+  }
+  .ai-sug-icon { font-size: 18px; flex-shrink: 0; }
+  .ai-sug-text { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+  .ai-sug-text strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 2px; }
+  .apply-btn {
+    font-size: 11px;
+    color: var(--rose);
+    border: 1px solid rgba(201,112,122,0.3);
+    border-radius: 20px;
+    padding: 3px 10px;
+    background: none;
+    cursor: pointer;
+    margin-top: 4px;
+    font-family: var(--font-body);
+    transition: all 0.15s;
+  }
+  .apply-btn:hover { background: var(--rose-pale); }
+
+  /* ─── ADD TASK MODAL ──────────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44,35,32,0.35);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 440px;
+    max-width: 95vw;
+    animation: fadeUp 0.25s ease;
+    box-shadow: 0 20px 60px rgba(44,35,32,0.15);
+  }
+  .modal h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 1.4rem;
+  }
+  .form-group { margin-bottom: 1rem; }
+  .form-label { font-size: 12px; color: var(--ink-light); margin-bottom: 5px; display: block; font-weight: 500; }
+  .form-input {
+    width: 100%;
+    border: 1px solid rgba(44,35,32,0.12);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus { border-color: var(--rose); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .category-picker { display: flex; gap: 6px; flex-wrap: wrap; }
+  .cat-opt {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(44,35,32,0.1);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: white;
+    color: var(--ink-mid);
+  }
+  .cat-opt.sel-work { background: #EDE9FE; border-color: #7C3AED; color: #5B21B6; }
+  .cat-opt.sel-home { background: var(--rose-light); border-color: var(--rose); color: #9B3042; }
+  .cat-opt.sel-self { background: var(--sage-light); border-color: var(--sage); color: #2D6A53; }
+  .cat-opt.sel-family { background: var(--gold-light); border-color: var(--gold); color: #8B5E17; }
+  
+  /* Sleep quality picker */
+  .sleep-quality-picker { display: flex; gap: 6px; flex-wrap: wrap; }
+  .quality-opt {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(44,35,32,0.1);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: white;
+    color: var(--ink-mid);
+    text-align: center;
+  }
+  .quality-opt:hover { background: var(--cream); }
+  .quality-opt.quality-selected { 
+    background: var(--gold-light); 
+    border-color: var(--gold); 
+    color: #8B5E17;
+    font-weight: 500;
+  }
+  
+  .modal-actions { display: flex; gap: 8px; margin-top: 1.4rem; }
+  .btn-primary {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--rose);
+    color: white;
+    border: none;
+    font-size: 14px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-primary:hover { background: #B85F69; }
+  .btn-ghost {
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: none;
+    border: 1px solid rgba(44,35,32,0.12);
+    font-size: 14px;
+    font-family: var(--font-body);
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-ghost:hover { background: var(--cream); }
+
+  /* ─── FAB ─────────────────────────────────── */
+  .fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--rose);
+    color: white;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(201,112,122,0.4);
+    transition: all 0.2s;
+    z-index: 150;
+  }
+  .fab:hover { transform: scale(1.1) rotate(90deg); background: #B85F69; }
+
+  /* ─── BADGE / CHIPS ───────────────────────── */
+  .hackathon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gold-light);
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: #8B5E17;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+
+  /* ─── INSIGHT CARDS ───────────────────────── */
+  .insight-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .insight-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(44,35,32,0.07);
+    padding: 1rem;
+  }
+  .insight-q {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+  }
+  .insight-a {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .insight-note { font-size: 11px; color: var(--ink-light); }
+
+  /* ─── TYPING INDICATOR ────────────────────── */
+  .typing { display: flex; gap: 3px; align-items: center; padding: 2px 0; }
+  .typing span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--rose);
+    animation: bounce 1.2s infinite;
+    opacity: 0.6;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+  /* ─── RESPONSIVE ──────────────────────────── */
+  @media(max-width:768px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .dashboard-row { grid-template-columns: 1fr; }
+    .load-grid { grid-template-columns: 1fr; }
+    .wellness-grid { grid-template-columns: 1fr 1fr; }
+    .planning-layout { grid-template-columns: 1fr; }
+    .insight-row { grid-template-columns: 1fr; }
+    .main { padding: 1rem; }
+  }
+
+  /* ─── ANIMATIONS ──────────────────────────── */
+  .fade-in { animation: fadeUp 0.4s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+
+  /* ─── AUTOMATION CONFIG PANEL ─────────────────── */
+  .config-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(44,35,32,0.15);
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
+  }
+
+  .config-panel-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(44,35,32,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--rose-pale);
+  }
+
+  .config-panel-header h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .config-panel-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--ink-mid);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .config-panel-header .close-btn:hover {
+    background: rgba(44,35,32,0.08);
+    color: var(--ink);
+  }
+
+  .config-panel-content {
+    padding: 24px;
+    overflow-y: auto;
+    max-height: calc(80vh - 80px);
+  }
+
+  .config-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(44,35,32,0.06);
+  }
+
+  .config-section:last-of-type {
+    border-bottom: none;
+  }
+
+  .config-section h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .config-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .config-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--rose);
+  }
+
+  .config-toggle span {
+    font-size: 14px;
+    color: var(--ink-mid);
+  }
+
+  .config-field {
+    margin-bottom: 16px;
+  }
+
+  .config-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .config-field select,
+  .config-field input[type="time"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid rgba(44,35,32,0.15);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--white);
+    transition: border-color 0.2s;
+  }
+
+  .config-field select:focus,
+  .config-field input[type="time"]:focus {
+    outline: none;
+    border-color: var(--rose);
+  }
+
+  .time-range {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .time-range input[type="time"] {
+    flex: 1;
+  }
+
+  .time-range span {
+    font-size: 13px;
+    color: var(--ink-mid);
+  }
+
+  .config-field input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(44,35,32,0.1);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .config-field input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--rose);
+    cursor: pointer;
+  }
+
+  .config-field input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--rose);
+    cursor: pointer;
+    border: none;
+  }
+
+  .config-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(44,35,32,0.08);
+  }
+
+  .config-actions button {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--rose);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #b55f69;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(201,112,122,0.3);
+  }
+
+  .btn-secondary {
+    background: var(--cream);
+    color: var(--ink-mid);
+    border: 1px solid rgba(44,35,32,0.15);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(44,35,32,0.05);
+    color: var(--ink);
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <span class="logo-name">HerFlow</span>
+    <span class="logo-tag">Mental Load & Wellness</span>
+  </div>
+  <div class="header-right">
+    <span class="greeting">Good day</span>
+    <div class="avatar">✨</div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <div class="nav-tab active" onclick="showTab('home')">🏠 Dashboard</div>
+  <div class="nav-tab has-items" onclick="showTab('load')">🧠 Mental Load <span class="nav-dot"></span></div>
+  <div class="nav-tab" onclick="showTab('wellness')">🌸 Wellness Hub</div>
+  <div class="nav-tab" onclick="showTab('plan')">📅 Planning</div>
+  <div class="nav-tab" onclick="showTab('ai')">✦ AI Companion</div>
+</nav>
+
+<!-- ═══════════ HOME / DASHBOARD ═══════════ -->
+<div class="main active" id="tab-home">
+
+  <div style="padding: 0.5rem 0 1.5rem;">
+    <div class="hackathon-badge">✦ AI-DLC Month Hackathon · Health & Wellness · Built by Kowsalya</div>
+    <div class="section-title fade-in">Your day, held gently.</div>
+    
+  </div>
+
+  <div class="dashboard-grid fade-in delay-1">
+    <div class="stat-card rose">
+      <div class="stat-label">Mental Load Score</div>
+      <div class="stat-value" id="dashboard-load-score">0</div>
+      <div class="stat-desc">out of 100</div>
+      <div class="stat-trend trend-up" id="dashboard-load-trend">Add tasks to track</div>
+    </div>
+    <div class="stat-card sage">
+      <div class="stat-label">Active Tasks</div>
+      <div class="stat-value" id="dashboard-task-count">0</div>
+      <div class="stat-desc" id="dashboard-task-desc">tasks to complete</div>
+      <div class="stat-trend trend-down" id="dashboard-task-trend">Start adding tasks</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="stat-label">Completed Today</div>
+      <div class="stat-value" id="dashboard-completed-count">0</div>
+      <div class="stat-desc">tasks done</div>
+      <div class="stat-trend" style="background:var(--gold-light);color:#8B5E17;" id="dashboard-completed-trend">Keep going!</div>
+    </div>
+  </div>
+
+  <div class="dashboard-row fade-in delay-2">
+    <!-- Today's priorities -->
+    <div class="today-card">
+      <div class="today-header">
+        <div>
+          <div class="today-date">Today's Focus</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:500;color:var(--ink);margin-top:2px">What matters most</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--ink-light);margin-bottom:4px;text-align:right">How are you feeling?</div>
+          <div class="mood-ring">
+            <div class="mood-btn selected" title="Tired" onclick="selectMood(this)">😴</div>
+            <div class="mood-btn" title="Okay" onclick="selectMood(this)">😊</div>
+            <div class="mood-btn" title="Stressed" onclick="selectMood(this)">😤</div>
+            <div class="mood-btn" title="Happy" onclick="selectMood(this)">🌸</div>
+          </div>
+        </div>
+      </div>
+      <div class="priority-list" id="priority-list">
+        <!-- Priority tasks will be dynamically loaded from task database -->
+      </div>
+    </div>
+
+    <!-- Load meter -->
+    <div class="load-card">
+      <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px">Load Breakdown</div>
+      <div style="font-size:12px;color:var(--ink-light)">Where your mental energy goes</div>
+      <div class="load-meter">
+        <svg class="load-svg" width="120" height="120" viewBox="0 0 120 120">
+          <circle class="load-bg" cx="60" cy="60" r="50"/>
+          <circle class="load-fg" id="dashboard-load-circle" cx="60" cy="60" r="50"
+            stroke="var(--rose)"
+            stroke-dasharray="314"
+            stroke-dashoffset="314"
+          />
+        </svg>
+        <div class="load-center">
+          <div class="load-pct" id="dashboard-load-pct">0%</div>
+          <div class="load-sub" id="dashboard-load-status">no tasks</div>
+        </div>
+      </div>
+      <div class="load-breakdown">
+        <div class="lb-row">
+          <div class="lb-dot" style="background:#7C3AED"></div>
+          <span class="lb-label">Work</span>
+          <div class="lb-bar-wrap"><div class="lb-bar" id="dashboard-work-bar" style="width:0%;background:#7C3AED"></div></div>
+          <span class="lb-pct" id="dashboard-work-pct">0</span>
+        </div>
+        <div class="lb-row">
+          <div class="lb-dot" style="background:var(--rose)"></div>
+          <span class="lb-label">Home</span>
+          <div class="lb-bar-wrap"><div class="lb-bar" id="dashboard-home-bar" style="width:0%;background:var(--rose)"></div></div>
+          <span class="lb-pct" id="dashboard-home-pct">0</span>
+        </div>
+        <div class="lb-row">
+          <div class="lb-dot" style="background:var(--gold)"></div>
+          <span class="lb-label">Family</span>
+          <div class="lb-bar-wrap"><div class="lb-bar" id="dashboard-family-bar" style="width:0%;background:var(--gold)"></div></div>
+          <span class="lb-pct" id="dashboard-family-pct">0</span>
+        </div>
+        <div class="lb-row">
+          <div class="lb-dot" style="background:var(--sage)"></div>
+          <span class="lb-label">Self-care</span>
+          <div class="lb-bar-wrap"><div class="lb-bar" id="dashboard-self-bar" style="width:0%;background:var(--sage)"></div></div>
+          <span class="lb-pct" id="dashboard-self-pct">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MENTAL LOAD ═══════════ -->
+<div class="main" id="tab-load">
+  <div style="padding: 0.5rem 0 1.5rem;">
+    <div class="section-label">Mental Load Tracker</div>
+    <div class="section-title">Everything in your head,</div>
+    <div class="section-title" style="color:var(--rose);font-style:italic">now on paper.</div>
+    <div class="section-sub">Capture, categorise, and — most importantly — delegate.</div>
+  </div>
+
+  <div class="load-grid">
+    <!-- Work -->
+    <div class="load-category">
+      <div class="lc-header">
+        <div class="lc-title">
+          <div class="lc-icon" style="background:#EDE9FE">💼</div>
+          Work
+        </div>
+        <div class="lc-count" id="work-count">0</div>
+      </div>
+      <div class="lc-progress"><div class="lc-bar" id="work-bar" style="width:0%;background:#7C3AED"></div></div>
+      <div class="lc-items" id="work-items">
+        <div class="quick-add" id="qa-work">
+          <input type="text" placeholder="Add work task..." onkeydown="handleTaskInput(event,'work','qa-work')">
+          <input type="date" id="date-work" class="task-date-input" title="Select due date (optional)">
+        </div>
+      </div>
+      <button class="add-task-btn" onclick="showQuickAdd('qa-work')">+ Add task</button>
+    </div>
+
+    <!-- Home -->
+    <div class="load-category">
+      <div class="lc-header">
+        <div class="lc-title">
+          <div class="lc-icon" style="background:var(--rose-light)">🏠</div>
+          Home Management
+        </div>
+        <div class="lc-count" id="home-count">0</div>
+      </div>
+      <div class="lc-progress"><div class="lc-bar" id="home-bar" style="width:0%;background:var(--rose)"></div></div>
+      <div class="lc-items" id="home-items">
+        <div class="quick-add" id="qa-home">
+          <input type="text" placeholder="Add home task..." onkeydown="handleTaskInput(event,'home','qa-home')">
+          <input type="date" id="date-home" class="task-date-input" title="Select due date (optional)">
+        </div>
+      </div>
+      <button class="add-task-btn" onclick="showQuickAdd('qa-home')">+ Add task</button>
+    </div>
+
+    <!-- Family -->
+    <div class="load-category">
+      <div class="lc-header">
+        <div class="lc-title">
+          <div class="lc-icon" style="background:var(--gold-light)">👨‍👩‍👦</div>
+          Family & Kids
+        </div>
+        <div class="lc-count" id="family-count">0</div>
+      </div>
+      <div class="lc-progress"><div class="lc-bar" id="family-bar" style="width:0%;background:var(--gold)"></div></div>
+      <div class="lc-items" id="family-items">
+        <div class="quick-add" id="qa-family">
+          <input type="text" placeholder="Add family task..." onkeydown="handleTaskInput(event,'family','qa-family')">
+          <input type="date" id="date-family" class="task-date-input" title="Select due date (optional)">
+        </div>
+      </div>
+      <button class="add-task-btn" onclick="showQuickAdd('qa-family')">+ Add task</button>
+    </div>
+
+    <!-- Self -->
+    <div class="load-category">
+      <div class="lc-header">
+        <div class="lc-title">
+          <div class="lc-icon" style="background:var(--sage-light)">🌸</div>
+          My Wellbeing
+        </div>
+        <div class="lc-count" id="self-count">0</div>
+      </div>
+      <div class="lc-progress"><div class="lc-bar" id="self-bar" style="width:0%;background:var(--sage)"></div></div>
+      <div class="lc-items" id="self-items">
+        <div class="quick-add" id="qa-self">
+          <input type="text" placeholder="Add self-care task..." onkeydown="handleTaskInput(event,'self','qa-self')">
+          <input type="date" id="date-self" class="task-date-input" title="Select due date (optional)">
+        </div>
+      </div>
+      <button class="add-task-btn" onclick="showQuickAdd('qa-self')">+ Add task</button>
+    </div>
+  </div>
+
+  <!-- AI Delegation suggestions -->
+  <div class="delegation-box">
+    <div class="delegate-title">✦ AI suggests you can delegate these</div>
+    <div class="delegate-items">
+      <div class="delegate-item">
+        <span class="delegate-text">Gas cylinder booking</span>
+        <span class="delegate-to">→ Husband / Partner</span>
+        <button class="delegate-btn" onclick="markDelegated(this)">Delegate ✓</button>
+      </div>
+      <div class="delegate-item">
+        <span class="delegate-text">Car service appointment</span>
+        <span class="delegate-to">→ Husband / Partner</span>
+        <button class="delegate-btn" onclick="markDelegated(this)">Delegate ✓</button>
+      </div>
+      <div class="delegate-item">
+        <span class="delegate-text">In-laws airport pickup</span>
+        <span class="delegate-to">→ Husband / Partner</span>
+        <button class="delegate-btn" onclick="markDelegated(this)">Delegate ✓</button>
+      </div>
+      <div class="delegate-item">
+        <span class="delegate-text">Prepare client demo slides (partial)</span>
+        <span class="delegate-to">→ Team colleague</span>
+        <button class="delegate-btn" onclick="markDelegated(this)">Delegate ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ WELLNESS HUB ═══════════ -->
+<div class="main" id="tab-wellness">
+  <div style="padding: 0.5rem 0 1.5rem;">
+    <div class="section-label">Wellness Hub</div>
+    <div class="section-title">You cannot pour</div>
+    <div class="section-title" style="color:var(--sage);font-style:italic">from an empty cup.</div>
+    <div class="section-sub">Small, consistent acts of self-care rebuild your energy.</div>
+  </div>
+
+  <div class="wellness-grid">
+    <div class="wellness-card wc-rose" onclick="startBreathing()">
+      <div class="wc-icon">🫁</div>
+      <div class="wc-title">Breathing Exercise</div>
+      <div class="wc-desc">4-7-8 technique to calm your nervous system instantly</div>
+      <div class="wc-streak">✦ Try it now — 2 minutes</div>
+    </div>
+    <div class="wellness-card wc-sage">
+      <div class="wc-icon">📔</div>
+      <div class="wc-title">Gratitude Journal</div>
+      <div class="wc-desc">Three things you're grateful for today</div>
+      <div class="wc-streak">🔥 5-day streak</div>
+    </div>
+    <div class="wellness-card wc-gold">
+      <div class="wc-icon">🧘‍♀️</div>
+      <div class="wc-title">Mindfulness Moment</div>
+      <div class="wc-desc">Guided 5-minute body scan for busy minds</div>
+      <div class="wc-streak">✦ Start practice</div>
+    </div>
+    <div class="wellness-card wc-rose">
+      <div class="wc-icon">🚶‍♀️</div>
+      <div class="wc-title">Movement Prompt</div>
+      <div class="wc-desc">Gentle reminder to move your body every hour</div>
+      <div class="wc-streak">🔥 4-day streak</div>
+    </div>
+    <div class="wellness-card wc-sage">
+      <div class="wc-icon">💧</div>
+      <div class="wc-title">Hydration Tracker</div>
+      <div class="wc-desc">Log water intake — aim for 8 glasses daily</div>
+      <div class="wc-streak">6 / 8 today</div>
+    </div>
+    <div class="wellness-card wc-gold" onclick="openSleepModal()">
+      <div class="wc-icon">😴</div>
+      <div class="wc-title">Sleep Insights</div>
+      <div class="wc-desc">Track and improve your sleep for better recovery</div>
+      <div class="wc-streak">Avg. 5.8 hrs this week</div>
+    </div>
+  </div>
+
+  <!-- Breathing widget -->
+  <div class="breathing-widget" id="breathing-widget">
+    <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px">4 · 7 · 8 Breathing</div>
+    <div style="font-family:var(--font-display);font-size:20px;color:var(--ink);margin-bottom:1.2rem;font-weight:400">Press start — let your body settle.</div>
+    <div class="breath-circle" id="breath-circle">begin</div>
+    <div class="breath-label" id="breath-label">Inhale 4 · Hold 7 · Exhale 8</div>
+    <button class="breath-btn" id="breath-btn" onclick="toggleBreath()">Start Breathing</button>
+    <div style="margin-top:0.8rem;font-size:12px;color:var(--ink-light)" id="breath-count"></div>
+  </div>
+
+  <!-- Habit tracker -->
+  <div class="habit-tracker">
+    <div style="font-size:14px;font-weight:500;color:var(--ink);margin-bottom:16px">Weekly Habits</div>
+    <div class="habit-row">
+      <div class="habit-name">🚶‍♀️ Daily Walk</div>
+      <div class="habit-days">
+        <div class="habit-day done">M</div>
+        <div class="habit-day done">T</div>
+        <div class="habit-day done">W</div>
+        <div class="habit-day done">T</div>
+        <div class="habit-day done">F</div>
+        <div class="habit-day today" onclick="toggleHabit(this)">S</div>
+        <div class="habit-day">S</div>
+      </div>
+    </div>
+    <div class="habit-row">
+      <div class="habit-name">🧘‍♀️ Meditation</div>
+      <div class="habit-days">
+        <div class="habit-day done">M</div>
+        <div class="habit-day">T</div>
+        <div class="habit-day done">W</div>
+        <div class="habit-day done">T</div>
+        <div class="habit-day">F</div>
+        <div class="habit-day today" onclick="toggleHabit(this)">S</div>
+        <div class="habit-day">S</div>
+      </div>
+    </div>
+    <div class="habit-row">
+      <div class="habit-name">💧 8 Glasses Water</div>
+      <div class="habit-days">
+        <div class="habit-day done">M</div>
+        <div class="habit-day done">T</div>
+        <div class="habit-day">W</div>
+        <div class="habit-day done">T</div>
+        <div class="habit-day done">F</div>
+        <div class="habit-day today" onclick="toggleHabit(this)">S</div>
+        <div class="habit-day">S</div>
+      </div>
+    </div>
+    <div class="habit-row">
+      <div class="habit-name">📖 Reading Time</div>
+      <div class="habit-days">
+        <div class="habit-day">M</div>
+        <div class="habit-day done">T</div>
+        <div class="habit-day">W</div>
+        <div class="habit-day">T</div>
+        <div class="habit-day done">F</div>
+        <div class="habit-day today" onclick="toggleHabit(this)">S</div>
+        <div class="habit-day">S</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wellness Reminders -->
+  <div class="reminder-panel">
+    <div class="reminder-header">
+      <div class="reminder-title">
+        <span>🔔</span>
+        <span>Wellness Reminders</span>
+      </div>
+    </div>
+    <div class="reminder-list" id="reminder-list">
+      <div class="reminder-empty">
+        <div class="reminder-empty-icon">🌸</div>
+        <div>No reminders yet. Add one to stay on track with your wellness goals.</div>
+      </div>
+    </div>
+    <button class="add-reminder-btn" onclick="openReminderModal()">
+      <span>+</span>
+      <span>Add Wellness Reminder</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ PLANNING ═══════════ -->
+<div class="main" id="tab-plan">
+  <div style="padding: 0.5rem 0 1.5rem;">
+    <div class="section-label">Weekly Planning</div>
+    <div class="section-title">Your week, balanced</div>
+    <div class="section-sub">AI-assisted scheduling that protects your time for everything — including yourself.</div>
+  </div>
+
+  <div class="planning-layout">
+    <div class="week-view">
+      <div class="week-header">
+        <!-- Dynamic dates will be rendered here by CalendarAutomation -->
+      </div>
+      <div class="week-slots" id="week-slots">
+        <!-- Tasks will be dynamically populated from Mental Load Tracker -->
+        <div class="day-col" data-day="0"></div>
+        <div class="day-col" data-day="1"></div>
+        <div class="day-col" data-day="2"></div>
+        <div class="day-col" data-day="3"></div>
+        <div class="day-col" data-day="4"></div>
+        <div class="day-col" data-day="5"></div>
+        <div class="day-col" data-day="6"></div>
+      </div>
+    </div>
+
+    <div class="ai-plan-box">
+      <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:10px">✦ AI Suggestions</div>
+
+      <div class="ai-suggestion">
+        <div class="ai-sug-icon">⚡</div>
+        <div class="ai-sug-text">
+          <strong>Protected focus block</strong>
+          Block 9–11am Mon for deep work. You do your best thinking then.
+          <br><button class="apply-btn" onclick="this.textContent='✓ Applied'">Apply to calendar</button>
+        </div>
+      </div>
+
+      <div class="ai-suggestion">
+        <div class="ai-sug-icon">🌿</div>
+        <div class="ai-sug-text">
+          <strong>Self-care first on Sunday</strong>
+          You've skipped Sunday rest 3 weeks in a row. Block 2–4pm for yourself.
+          <br><button class="apply-btn" onclick="this.textContent='✓ Applied'">Block the time</button>
+        </div>
+      </div>
+
+      <div class="ai-suggestion">
+        <div class="ai-sug-icon">🤝</div>
+        <div class="ai-sug-text">
+          <strong>Delegate airport pickup</strong>
+          This can go to your partner — saves you 2 hrs on Sunday.
+          <br><button class="apply-btn" onclick="this.textContent='✓ Delegated'">Mark delegated</button>
+        </div>
+      </div>
+
+      <div class="ai-suggestion">
+        <div class="ai-sug-icon">😴</div>
+        <div class="ai-sug-text">
+          <strong>10pm phone off</strong>
+          You've been sleeping at midnight. Earlier wind-down improves your score by ~18%.
+          <br><button class="apply-btn" onclick="this.textContent='✓ Reminder set'">Set reminder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ AI COMPANION ═══════════ -->
+<div class="main" id="tab-ai">
+  <div style="padding: 0.5rem 0 1.5rem;">
+    <div class="section-label">AI Companion</div>
+    <div class="section-title">She listens. She plans.</div>
+    <div class="section-sub">Your personal AI trained on the mental load — not productivity hacks.</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:16px">
+    <div class="ai-panel">
+      <div class="ai-header">
+        <div class="ai-avatar">🌸</div>
+        <div>
+          <div class="ai-name">HerFlow AI</div>
+          <div class="ai-status"><span class="ai-dot"></span> Here for you</div>
+        </div>
+      </div>
+
+      <div class="ai-messages" id="ai-messages">
+        <!-- AI messages will be dynamically generated based on user's tasks -->
+      </div>
+
+      <div class="ai-suggestions" id="ai-suggestions">
+        <!-- Dynamic suggestions will be generated based on user's task state -->
+      </div>
+
+      <div class="ai-input-row">
+        <textarea class="ai-input" id="ai-input" placeholder="Tell me what's on your mind..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"
+          oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+        <button class="ai-send" onclick="sendMsg()">→</button>
+      </div>
+    </div>
+
+    <!-- Side panel -->
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card-sm">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-light);margin-bottom:10px">Mana AI can help with</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-mid)">
+            <span style="color:var(--rose);margin-top:1px">✦</span>
+            <span>Offloading what's in your head — she listens without judgment</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-mid)">
+            <span style="color:var(--sage);margin-top:1px">✦</span>
+            <span>Prioritising your task list when everything feels urgent</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-mid)">
+            <span style="color:var(--gold);margin-top:1px">✦</span>
+            <span>Suggesting who to delegate tasks to and how to ask</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-mid)">
+            <span style="color:var(--rose);margin-top:1px">✦</span>
+            <span>Guiding a breathing or grounding exercise right now</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-mid)">
+            <span style="color:var(--sage);margin-top:1px">✦</span>
+            <span>Spotting burnout patterns before they peak</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-sm" style="background:linear-gradient(135deg,var(--rose-pale),white)">
+        <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:6px">Today's affirmation</div>
+        <div style="font-family:var(--font-display);font-size:18px;color:var(--rose);font-style:italic;line-height:1.4;font-weight:400">"Managing everything doesn't mean doing everything alone."</div>
+      </div>
+
+      <div class="card-sm">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-light);margin-bottom:10px">Built for women like</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--rose-light);display:flex;align-items:center;justify-content:center;font-size:12px">P</div>
+            <div>
+              <div style="font-size:12px;font-weight:500;color:var(--ink)">Priya, Coimbatore</div>
+              <div style="font-size:11px;color:var(--ink-light)">Software team lead + mother of 1</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--sage-light);display:flex;align-items:center;justify-content:center;font-size:12px">M</div>
+            <div>
+              <div style="font-size:12px;font-weight:500;color:var(--ink)">Meenakshi, Madurai</div>
+              <div style="font-size:11px;color:var(--ink-light)">Teacher + caregiver for parent</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:12px">D</div>
+            <div>
+              <div style="font-size:12px;font-weight:500;color:var(--ink)">Soundariya, UAE</div>
+              <div style="font-size:11px;color:var(--ink-light)">Entrepreneur + wife + daughter</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD TASK MODAL -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3>Add to your list</h3>
+    <div class="form-group">
+      <label class="form-label">Task or thought</label>
+      <input class="form-input" id="modal-task" placeholder="What's on your mind?" onkeydown="if(event.key==='Enter')addTaskFromModal()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <div class="category-picker">
+        <div class="cat-opt sel-work" onclick="selectCat(this,'work')">💼 Work</div>
+        <div class="cat-opt" onclick="selectCat(this,'home')">🏠 Home</div>
+        <div class="cat-opt" onclick="selectCat(this,'family')">👨‍👩‍👦 Family</div>
+        <div class="cat-opt" onclick="selectCat(this,'self')">🌸 Self</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Priority</label>
+        <select class="form-input" id="modal-priority">
+          <option>High — do today</option>
+          <option selected>Medium — this week</option>
+          <option>Low — someday</option>
+          <option>Delegate</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Due date</label>
+        <input class="form-input" id="modal-date" type="date">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="addTaskFromModal()">Add Task ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- WELLNESS REMINDER MODAL -->
+<div class="modal-overlay" id="reminder-modal" onclick="if(event.target===this)closeReminderModal()">
+  <div class="modal">
+    <h3>Schedule Wellness Reminder</h3>
+    <div class="form-group">
+      <label class="form-label">Activity</label>
+      <input class="form-input" id="reminder-activity" placeholder="e.g., Take a walk, Drink water, Meditate">
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Time</label>
+        <input class="form-input" id="reminder-time" type="time" value="09:00">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Frequency</label>
+        <select class="form-input" id="reminder-frequency">
+          <option value="daily">Daily</option>
+          <option value="weekdays">Weekdays</option>
+          <option value="weekends">Weekends</option>
+          <option value="weekly">Weekly (Monday)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeReminderModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveReminder()">Schedule Reminder ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAB -->
+<button class="fab" onclick="openModal()" title="Add task">+</button>
+
+<!-- SLEEP TRACKING MODAL -->
+<div class="modal-overlay" id="sleep-modal" onclick="if(event.target===this)closeSleepModal()">
+  <div class="modal">
+    <h3>Log Sleep</h3>
+    <div class="form-group">
+      <label class="form-label">Date</label>
+      <input class="form-input" id="sleep-date" type="date">
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Bedtime</label>
+        <input class="form-input" id="sleep-bedtime" type="time">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Wake time</label>
+        <input class="form-input" id="sleep-waketime" type="time">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Sleep Quality</label>
+      <div class="sleep-quality-picker">
+        <div class="quality-opt" data-quality="poor" onclick="selectQuality(this,'poor')">😫 Poor</div>
+        <div class="quality-opt" data-quality="fair" onclick="selectQuality(this,'fair')">😐 Fair</div>
+        <div class="quality-opt quality-selected" data-quality="good" onclick="selectQuality(this,'good')">😊 Good</div>
+        <div class="quality-opt" data-quality="excellent" onclick="selectQuality(this,'excellent')">😴 Excellent</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes (optional)</label>
+      <textarea class="form-input" id="sleep-notes" placeholder="Any factors affecting your sleep?" rows="2"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeSleepModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveSleepLog()">Save Sleep Log ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── NAVIGATION ───────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.main').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ─── MOOD ─────────────────────────────────────
+function selectMood(el) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ─── PRIORITIES ───────────────────────────────
+function togglePriority(taskId) {
+  // Find task in database
+  const task = taskDatabase.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  
+  // Toggle completion status
+  task.completed = !task.completed;
+  task.completedDate = task.completed ? new Date().toISOString() : null;
+  
+  // Save to storage
+  saveTasksToStorage();
+  
+  // Update all UIs
+  updateDashboard();
+  restoreTasksToUI();
+  syncTasksToCalendar();
+  
+  // Update mental load
+  if (typeof syncTasksFromUI === 'function') {
+    setTimeout(() => {
+      syncTasksFromUI();
+      updateMentalLoadUI();
+    }, 100);
+  }
+  
+  // Update AI insights
+  setTimeout(() => {
+    analyzeTasksAndGenerateAIInsights();
+  }, 300);
+  
+  console.log(`✓ Task ${task.completed ? 'completed' : 'uncompleted'}: "${task.text}"`);
+}
+
+// ─── TASK DATA STORAGE ────────────────────────
+let taskDatabase = {
+  tasks: [],
+  nextId: 1
+};
+
+// Load tasks from localStorage on page load
+function loadTasksFromStorage() {
+  const stored = localStorage.getItem('herflow_tasks');
+  if (stored) {
+    try {
+      taskDatabase = JSON.parse(stored);
+      console.log(`📦 Loaded ${taskDatabase.tasks.length} tasks from storage`);
+      
+      // Restore tasks to UI
+      restoreTasksToUI();
+      
+      // Update Dashboard
+      updateDashboard();
+    } catch (e) {
+      console.error('Error loading tasks:', e);
+    }
+  } else {
+    // No tasks yet, update Dashboard to show empty state
+    updateDashboard();
+  }
+  
+  // Generate AI insights based on loaded tasks
+  setTimeout(() => {
+    analyzeTasksAndGenerateAIInsights();
+  }, 300);
+}
+
+// Save tasks to localStorage
+function saveTasksToStorage() {
+  localStorage.setItem('herflow_tasks', JSON.stringify(taskDatabase));
+  console.log(`💾 Saved ${taskDatabase.tasks.length} tasks to storage`);
+}
+
+// Restore tasks to UI from database
+function restoreTasksToUI() {
+  taskDatabase.tasks.forEach(task => {
+    if (!task.completed) {
+      const list = document.getElementById(`${task.category}-items`);
+      if (!list) return;
+      
+      const item = document.createElement('div');
+      item.className = 'lc-item';
+      item.setAttribute('data-task-id', task.id);
+      item.onclick = function() { toggleLC(this); };
+      
+      // Add date badge if task has scheduled date
+      let dateBadge = '';
+      if (task.scheduledDate) {
+        const date = new Date(task.scheduledDate);
+        const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        dateBadge = `<span class="task-date-badge" title="Due date: ${formattedDate}">${formattedDate}</span>`;
+      }
+      
+      item.innerHTML = `<div class="lc-checkbox"></div><span>${task.text}</span>${dateBadge}`;
+      
+      const qa = document.getElementById(`qa-${task.category}`);
+      if (qa) {
+        list.insertBefore(item, qa);
+      } else {
+        list.appendChild(item);
+      }
+    }
+  });
+  
+  // Update counts
+  ['work', 'home', 'family', 'self'].forEach(category => {
+    updateTaskCount(category);
+  });
+}
+
+// Update task count for a category
+function updateTaskCount(category) {
+  const items = document.getElementById(`${category}-items`);
+  if (!items) return;
+  
+  const count = items.querySelectorAll('.lc-item:not(.done)').length;
+  const countEl = document.getElementById(`${category}-count`);
+  if (countEl) {
+    countEl.textContent = count;
+  }
+}
+
+// ─── DASHBOARD SYNC ───────────────────────────
+function updateDashboard() {
+  updateDashboardStats();
+  updateDashboardPriorities();
+}
+
+function updateDashboardStats() {
+  // Get task statistics
+  const allTasks = taskDatabase.tasks;
+  const incompleteTasks = allTasks.filter(t => !t.completed);
+  const today = new Date().toISOString().split('T')[0];
+  const completedToday = allTasks.filter(t => 
+    t.completed && t.completedDate && t.completedDate.startsWith(today)
+  );
+  
+  // Calculate mental load score (0-100)
+  const taskCount = incompleteTasks.length;
+  let loadScore = 0;
+  if (taskCount === 0) {
+    loadScore = 0;
+  } else if (taskCount <= 5) {
+    loadScore = Math.min(30, taskCount * 6);
+  } else if (taskCount <= 10) {
+    loadScore = 30 + ((taskCount - 5) * 8);
+  } else if (taskCount <= 20) {
+    loadScore = 70 + ((taskCount - 10) * 2);
+  } else {
+    loadScore = Math.min(100, 90 + (taskCount - 20));
+  }
+  
+  // Update Mental Load Score
+  const loadScoreEl = document.getElementById('dashboard-load-score');
+  const loadTrendEl = document.getElementById('dashboard-load-trend');
+  if (loadScoreEl) {
+    loadScoreEl.textContent = Math.round(loadScore);
+  }
+  if (loadTrendEl) {
+    if (loadScore === 0) {
+      loadTrendEl.textContent = 'Add tasks to track';
+      loadTrendEl.className = 'stat-trend';
+    } else if (loadScore < 40) {
+      loadTrendEl.textContent = '✓ Manageable load';
+      loadTrendEl.className = 'stat-trend trend-down';
+    } else if (loadScore < 70) {
+      loadTrendEl.textContent = '⚠ Moderate load';
+      loadTrendEl.className = 'stat-trend';
+      loadTrendEl.style.background = 'var(--gold-light)';
+      loadTrendEl.style.color = '#8B5E17';
+    } else {
+      loadTrendEl.textContent = '↑ High — consider delegating';
+      loadTrendEl.className = 'stat-trend trend-up';
+    }
+  }
+  
+  // Update Active Tasks
+  const taskCountEl = document.getElementById('dashboard-task-count');
+  const taskDescEl = document.getElementById('dashboard-task-desc');
+  const taskTrendEl = document.getElementById('dashboard-task-trend');
+  if (taskCountEl) {
+    taskCountEl.textContent = taskCount;
+  }
+  if (taskDescEl) {
+    taskDescEl.textContent = taskCount === 1 ? 'task to complete' : 'tasks to complete';
+  }
+  if (taskTrendEl) {
+    if (taskCount === 0) {
+      taskTrendEl.textContent = 'Start adding tasks';
+      taskTrendEl.className = 'stat-trend';
+    } else {
+      const categories = ['work', 'home', 'family', 'self'];
+      const categoryCounts = categories.map(cat => 
+        incompleteTasks.filter(t => t.category === cat).length
+      );
+      const maxCategory = categories[categoryCounts.indexOf(Math.max(...categoryCounts))];
+      const categoryNames = { work: 'Work', home: 'Home', family: 'Family', self: 'Self-care' };
+      taskTrendEl.textContent = `Most: ${categoryNames[maxCategory]}`;
+      taskTrendEl.className = 'stat-trend trend-down';
+    }
+  }
+  
+  // Update Completed Today
+  const completedCountEl = document.getElementById('dashboard-completed-count');
+  const completedTrendEl = document.getElementById('dashboard-completed-trend');
+  if (completedCountEl) {
+    completedCountEl.textContent = completedToday.length;
+  }
+  if (completedTrendEl) {
+    if (completedToday.length === 0) {
+      completedTrendEl.textContent = 'Keep going!';
+    } else if (completedToday.length === 1) {
+      completedTrendEl.textContent = '🌟 Great start!';
+    } else if (completedToday.length <= 3) {
+      completedTrendEl.textContent = '🔥 On a roll!';
+    } else {
+      completedTrendEl.textContent = '✨ Amazing progress!';
+    }
+  }
+  
+  // Update Load Meter Circle
+  const loadCircle = document.getElementById('dashboard-load-circle');
+  const loadPct = document.getElementById('dashboard-load-pct');
+  const loadStatus = document.getElementById('dashboard-load-status');
+  
+  if (loadCircle) {
+    const circumference = 314; // 2 * PI * radius (50)
+    const offset = circumference - (loadScore / 100) * circumference;
+    loadCircle.style.strokeDashoffset = offset;
+    
+    // Change color based on load
+    if (loadScore < 40) {
+      loadCircle.setAttribute('stroke', 'var(--sage)');
+    } else if (loadScore < 70) {
+      loadCircle.setAttribute('stroke', 'var(--gold)');
+    } else {
+      loadCircle.setAttribute('stroke', 'var(--rose)');
+    }
+  }
+  
+  if (loadPct) {
+    loadPct.textContent = Math.round(loadScore) + '%';
+  }
+  
+  if (loadStatus) {
+    if (loadScore === 0) {
+      loadStatus.textContent = 'no tasks';
+    } else if (loadScore < 40) {
+      loadStatus.textContent = 'manageable';
+    } else if (loadScore < 70) {
+      loadStatus.textContent = 'moderate';
+    } else {
+      loadStatus.textContent = 'high load';
+    }
+  }
+  
+  // Update Category Breakdown
+  const workCount = incompleteTasks.filter(t => t.category === 'work').length;
+  const homeCount = incompleteTasks.filter(t => t.category === 'home').length;
+  const familyCount = incompleteTasks.filter(t => t.category === 'family').length;
+  const selfCount = incompleteTasks.filter(t => t.category === 'self').length;
+  
+  const totalCount = taskCount || 1; // Avoid division by zero
+  
+  // Update Work
+  const workBar = document.getElementById('dashboard-work-bar');
+  const workPct = document.getElementById('dashboard-work-pct');
+  if (workBar) workBar.style.width = ((workCount / totalCount) * 100) + '%';
+  if (workPct) workPct.textContent = workCount;
+  
+  // Update Home
+  const homeBar = document.getElementById('dashboard-home-bar');
+  const homePct = document.getElementById('dashboard-home-pct');
+  if (homeBar) homeBar.style.width = ((homeCount / totalCount) * 100) + '%';
+  if (homePct) homePct.textContent = homeCount;
+  
+  // Update Family
+  const familyBar = document.getElementById('dashboard-family-bar');
+  const familyPct = document.getElementById('dashboard-family-pct');
+  if (familyBar) familyBar.style.width = ((familyCount / totalCount) * 100) + '%';
+  if (familyPct) familyPct.textContent = familyCount;
+  
+  // Update Self
+  const selfBar = document.getElementById('dashboard-self-bar');
+  const selfPct = document.getElementById('dashboard-self-pct');
+  if (selfBar) selfBar.style.width = ((selfCount / totalCount) * 100) + '%';
+  if (selfPct) selfPct.textContent = selfCount;
+}
+
+function updateDashboardPriorities() {
+  const priorityList = document.getElementById('priority-list');
+  if (!priorityList) return;
+  
+  // Clear existing items
+  priorityList.innerHTML = '';
+  
+  // Get today's tasks (tasks with today's date or no date)
+  const today = new Date().toISOString().split('T')[0];
+  const todayTasks = taskDatabase.tasks.filter(task => {
+    // Include tasks scheduled for today or tasks without a date
+    return !task.completed && (!task.scheduledDate || task.scheduledDate === today);
+  });
+  
+  // If no tasks, show empty state
+  if (todayTasks.length === 0) {
+    priorityList.innerHTML = `
+      <div style="text-align:center;padding:2rem 1rem;color:var(--ink-light);">
+        <div style="font-size:32px;margin-bottom:8px;opacity:0.5;">📝</div>
+        <div style="font-size:13px;">No tasks for today yet</div>
+        <div style="font-size:12px;margin-top:4px;">Add tasks in Mental Load Tracker</div>
+      </div>
+    `;
+    return;
+  }
+  
+  // Show up to 5 priority tasks
+  const priorityTasks = todayTasks.slice(0, 5);
+  
+  priorityTasks.forEach(task => {
+    const item = document.createElement('div');
+    item.className = `priority-item ${task.completed ? 'done' : ''}`;
+    item.onclick = function() { togglePriority(task.id); };
+    
+    const categoryTags = {
+      work: 'tag-work',
+      home: 'tag-home',
+      family: 'tag-family',
+      self: 'tag-self'
+    };
+    
+    const categoryNames = {
+      work: 'Work',
+      home: 'Home',
+      family: 'Family',
+      self: 'Self'
+    };
+    
+    item.innerHTML = `
+      <div class="pi-check">${task.completed ? '✓' : ''}</div>
+      <span class="pi-text">${task.text}</span>
+      <span class="pi-tag ${categoryTags[task.category]}">${categoryNames[task.category]}</span>
+    `;
+    
+    priorityList.appendChild(item);
+  });
+}
+
+// ─── MENTAL LOAD ITEMS ────────────────────────
+function toggleLC(el) {
+  el.classList.toggle('done');
+  const box = el.querySelector('.lc-checkbox');
+  const isDone = el.classList.contains('done');
+  box.textContent = isDone ? '✓' : '';
+  
+  // Update task in database
+  const taskId = parseInt(el.getAttribute('data-task-id'));
+  if (taskId) {
+    const task = taskDatabase.tasks.find(t => t.id === taskId);
+    if (task) {
+      task.completed = isDone;
+      task.completedDate = isDone ? new Date().toISOString() : null;
+      saveTasksToStorage();
+      
+      // Update Dashboard
+      updateDashboard();
+    }
+  }
+  
+  // Sync to planning calendar when task is toggled
+  setTimeout(() => {
+    syncTasksToCalendar();
+    // Update AI insights
+    analyzeTasksAndGenerateAIInsights();
+  }, 100);
+}
+
+function showQuickAdd(id) {
+  const el = document.getElementById(id);
+  el.style.display = 'flex'; // Changed to flex for date input layout
+  const textInput = el.querySelector('input[type="text"]');
+  if (textInput) {
+    textInput.focus();
+  }
+}
+
+// Handle task input (Enter key)
+function handleTaskInput(e, category, qaId) {
+  if (e.key !== 'Enter') return;
+  
+  const textInput = e.target;
+  const val = textInput.value.trim();
+  if (!val) return;
+  
+  // Get date input
+  const dateInput = document.getElementById(`date-${category}`);
+  const selectedDate = dateInput ? dateInput.value : null;
+  
+  // Call addTask with date
+  addTaskWithDate(val, category, qaId, selectedDate);
+  
+  // Clear inputs
+  textInput.value = '';
+  if (dateInput) dateInput.value = '';
+}
+
+// Add task with date
+function addTaskWithDate(taskText, category, qaId, scheduledDate) {
+  const listId = `${category}-items`;
+  const countId = `${category}-count`;
+  
+  // Create task object and add to database
+  const task = {
+    id: taskDatabase.nextId++,
+    text: taskText,
+    category: category,
+    createdDate: new Date().toISOString(),
+    scheduledDate: scheduledDate || null, // Use selected date or null
+    completed: false,
+    completedDate: null
+  };
+  
+  taskDatabase.tasks.push(task);
+  saveTasksToStorage();
+  
+  // Add to UI with date badge
+  const list = document.getElementById(listId);
+  const item = document.createElement('div');
+  item.className = 'lc-item';
+  item.setAttribute('data-task-id', task.id);
+  item.onclick = function() { toggleLC(this); };
+  
+  let dateBadge = '';
+  if (scheduledDate) {
+    const date = new Date(scheduledDate);
+    const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    dateBadge = `<span class="task-date-badge" title="Due date: ${formattedDate}">${formattedDate}</span>`;
+  }
+  
+  item.innerHTML = `<div class="lc-checkbox"></div><span>${taskText}</span>${dateBadge}`;
+  
+  const qa = document.getElementById(qaId);
+  list.insertBefore(item, qa);
+  
+  // Hide the quick-add input
+  qa.style.display = 'none';
+  
+  // Update count
+  updateTaskCount(category);
+  
+  // Trigger mental load update if agent is available
+  if (typeof syncTasksFromUI === 'function') {
+    setTimeout(() => {
+      syncTasksFromUI();
+      updateMentalLoadUI();
+    }, 100);
+  }
+  
+  const dateInfo = scheduledDate ? ` (Due: ${scheduledDate})` : '';
+  console.log(`✅ Task added: "${taskText}" in ${category} category (ID: ${task.id})${dateInfo}`);
+  
+  // Sync to planning calendar
+  syncTasksToCalendar();
+  
+  // Update AI insights
+  setTimeout(() => {
+    analyzeTasksAndGenerateAIInsights();
+  }, 500);
+}
+
+function addTask(e, listId, countId, qaId) {
+  if (e.key !== 'Enter') return;
+  const val = e.target.value.trim();
+  if (!val) return;
+  
+  // Get category from listId (e.g., 'work-items' -> 'work')
+  const category = listId.replace('-items', '');
+  
+  // Create task object and add to database
+  const task = {
+    id: taskDatabase.nextId++,
+    text: val,
+    category: category,
+    createdDate: new Date().toISOString(),
+    scheduledDate: null, // Will be assigned by calendar
+    completed: false,
+    completedDate: null
+  };
+  
+  taskDatabase.tasks.push(task);
+  saveTasksToStorage();
+  
+  // Add to UI
+  const list = document.getElementById(listId);
+  const item = document.createElement('div');
+  item.className = 'lc-item';
+  item.setAttribute('data-task-id', task.id);
+  item.onclick = function() { toggleLC(this); };
+  item.innerHTML = `<div class="lc-checkbox"></div><span>${val}</span>`;
+  const qa = document.getElementById(qaId);
+  list.insertBefore(item, qa);
+  e.target.value = '';
+  
+  // Hide the quick-add input
+  qa.style.display = 'none';
+  
+  // Update count
+  updateTaskCount(category);
+  
+  // Update Dashboard
+  updateDashboard();
+  
+  // Trigger mental load update if agent is available
+  if (typeof syncTasksFromUI === 'function') {
+    setTimeout(() => {
+      syncTasksFromUI();
+      updateMentalLoadUI();
+    }, 100);
+  }
+  
+  console.log(`✅ Task added: "${val}" in ${category} category (ID: ${task.id})`);
+  
+  // Sync to planning calendar
+  syncTasksToCalendar();
+}
+
+// ─── SYNC TASKS TO PLANNING CALENDAR ─────────
+function syncTasksToCalendar() {
+  const weekSlots = document.getElementById('week-slots');
+  if (!weekSlots) return;
+  
+  // Get all incomplete tasks from database
+  const incompleteTasks = taskDatabase.tasks.filter(t => !t.completed);
+  
+  // Get current week dates
+  const today = new Date();
+  const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+  const weekStart = new Date(today);
+  weekStart.setDate(today.getDate() - currentDay); // Start from Sunday
+  
+  const weekDates = [];
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(weekStart);
+    date.setDate(weekStart.getDate() + i);
+    weekDates.push(date);
+  }
+  
+  // Get day columns
+  const dayCols = weekSlots.querySelectorAll('.day-col');
+  
+  // Clear existing tasks
+  dayCols.forEach(col => col.innerHTML = '');
+  
+  // If no tasks, show empty state
+  if (incompleteTasks.length === 0) {
+    dayCols[0].innerHTML = '<div style="padding:10px;font-size:11px;color:var(--ink-light);text-align:center">Add tasks in Mental Load Tracker to see them here</div>';
+    return;
+  }
+  
+  // Assign tasks to dates if not already assigned
+  incompleteTasks.forEach((task, index) => {
+    if (!task.scheduledDate) {
+      // Distribute tasks evenly across the week
+      const dayIndex = index % 7;
+      const assignedDate = weekDates[dayIndex];
+      task.scheduledDate = assignedDate.toISOString().split('T')[0]; // YYYY-MM-DD format
+    }
+  });
+  
+  // Save updated task dates
+  saveTasksToStorage();
+  
+  // Group tasks by scheduled date
+  const tasksByDate = {};
+  incompleteTasks.forEach(task => {
+    const dateKey = task.scheduledDate;
+    if (!tasksByDate[dateKey]) {
+      tasksByDate[dateKey] = [];
+    }
+    tasksByDate[dateKey].push(task);
+  });
+  
+  // Populate calendar with tasks
+  dayCols.forEach((col, dayIndex) => {
+    const dateKey = weekDates[dayIndex].toISOString().split('T')[0];
+    const dayTasks = tasksByDate[dateKey] || [];
+    
+    dayTasks.forEach(task => {
+      const slot = document.createElement('div');
+      slot.className = `slot slot-${task.category}`;
+      slot.textContent = task.text;
+      slot.title = `${task.category.charAt(0).toUpperCase() + task.category.slice(1)}: ${task.text}`;
+      slot.setAttribute('data-task-id', task.id);
+      
+      // Make slots clickable to mark as done
+      slot.onclick = function() {
+        markTaskDoneFromCalendar(task.id);
+      };
+      
+      col.appendChild(slot);
+    });
+  });
+  
+  console.log(`📅 Calendar synced with ${incompleteTasks.length} tasks across the week`);
+}
+
+// Mark task as done from calendar
+function markTaskDoneFromCalendar(taskId) {
+  const task = taskDatabase.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  
+  task.completed = true;
+  task.completedDate = new Date().toISOString();
+  saveTasksToStorage();
+  
+  // Update UI in Mental Load Tracker
+  const taskEl = document.querySelector(`[data-task-id="${taskId}"]`);
+  if (taskEl && taskEl.classList.contains('lc-item')) {
+    taskEl.classList.add('done');
+    const box = taskEl.querySelector('.lc-checkbox');
+    if (box) box.textContent = '✓';
+  }
+  
+  // Update count
+  updateTaskCount(task.category);
+  
+  // Refresh calendar
+  syncTasksToCalendar();
+  
+  console.log(`✅ Task completed from calendar: "${task.text}"`);
+}
+
+// ─── DELEGATION ───────────────────────────────
+function markDelegated(btn) {
+  btn.textContent = '✓ Delegated';
+  btn.style.background = 'var(--sage-light)';
+  btn.style.color = 'var(--sage)';
+  btn.style.borderColor = 'var(--sage)';
+  btn.disabled = true;
+}
+
+// ─── HABIT ────────────────────────────────────
+function toggleHabit(el) {
+  el.classList.toggle('done');
+}
+
+// ─── BREATHING ────────────────────────────────
+let breathActive = false, breathPhase = 0, breathInterval, breathCount = 0;
+const phases = [
+  { text: 'Breathe in...', dur: 4000, scale: 'inhale' },
+  { text: 'Hold...', dur: 7000, scale: '' },
+  { text: 'Breathe out...', dur: 8000, scale: 'exhale' }
+];
+
+function startBreathing() {
+  document.querySelector('.nav-tab:nth-child(3)').click();
+  setTimeout(() => {
+    document.getElementById('breathing-widget').scrollIntoView({ behavior: 'smooth' });
+  }, 200);
+}
+
+function toggleBreath() {
+  breathActive = !breathActive;
+  const btn = document.getElementById('breath-btn');
+  const circle = document.getElementById('breath-circle');
+  const label = document.getElementById('breath-label');
+  if (breathActive) {
+    btn.textContent = 'Stop';
+    breathCount = 0;
+    runBreath();
+  } else {
+    clearTimeout(breathInterval);
+    btn.textContent = 'Start Breathing';
+    circle.className = 'breath-circle';
+    circle.textContent = 'begin';
+    label.textContent = 'Inhale 4 · Hold 7 · Exhale 8';
+    document.getElementById('breath-count').textContent = '';
+    breathPhase = 0;
+  }
+}
+
+function runBreath() {
+  if (!breathActive) return;
+  const phase = phases[breathPhase];
+  const circle = document.getElementById('breath-circle');
+  const label = document.getElementById('breath-label');
+  circle.className = 'breath-circle ' + phase.scale;
+  circle.textContent = phase.text.split('...')[0];
+  label.textContent = phase.text;
+  breathPhase = (breathPhase + 1) % 3;
+  if (breathPhase === 0) {
+    breathCount++;
+    document.getElementById('breath-count').textContent = `Cycle ${breathCount} complete 🌿`;
+  }
+  breathInterval = setTimeout(runBreath, phase.dur);
+}
+
+// ─── MODAL ────────────────────────────────────
+let selectedCategory = 'work'; // Default category
+
+function openModal() { 
+  document.getElementById('modal').classList.add('open');
+  // Reset form
+  document.getElementById('modal-task').value = '';
+  document.getElementById('modal-date').value = '';
+  document.getElementById('modal-priority').value = 'Medium — this week';
+  // Reset category selection to work
+  selectedCategory = 'work';
+  document.querySelectorAll('.cat-opt').forEach(o => {
+    o.className = 'cat-opt';
+  });
+  document.querySelector('.cat-opt.sel-work').className = 'cat-opt sel-work';
+}
+
+function closeModal() { 
+  document.getElementById('modal').classList.remove('open'); 
+}
+
+function selectCat(el, cat) {
+  selectedCategory = cat; // Store selected category
+  document.querySelectorAll('.cat-opt').forEach(o => {
+    o.className = 'cat-opt';
+  });
+  el.className = `cat-opt sel-${cat}`;
+}
+
+function addTaskFromModal() {
+  const taskInput = document.getElementById('modal-task');
+  const dateInput = document.getElementById('modal-date');
+  const taskText = taskInput.value.trim();
+  
+  if (!taskText) {
+    alert('Please enter a task');
+    return;
+  }
+  
+  const scheduledDate = dateInput.value || null;
+  
+  // Add task using existing function
+  addTaskWithDate(taskText, selectedCategory, null, scheduledDate);
+  
+  // Close modal
+  closeModal();
+  
+  // Switch to Mental Load Tracker tab to show the added task
+  showTab('load');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[onclick*="load"]').classList.add('active');
+}
+
+// ─── SLEEP TRACKING ───────────────────────────
+let sleepDatabase = {
+  logs: [],
+  nextId: 1
+};
+
+let selectedQuality = 'good'; // Default quality
+
+// Load sleep data from localStorage
+function loadSleepData() {
+  const saved = localStorage.getItem('herflow_sleep_data');
+  if (saved) {
+    try {
+      sleepDatabase = JSON.parse(saved);
+    } catch (e) {
+      console.error('Failed to load sleep data:', e);
+    }
+  }
+}
+
+// Save sleep data to localStorage
+function saveSleepData() {
+  localStorage.setItem('herflow_sleep_data', JSON.stringify(sleepDatabase));
+}
+
+function openSleepModal() {
+  document.getElementById('sleep-modal').classList.add('open');
+  
+  // Set default date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('sleep-date').value = today;
+  
+  // Set default times
+  document.getElementById('sleep-bedtime').value = '22:00';
+  document.getElementById('sleep-waketime').value = '06:00';
+  
+  // Reset quality to good
+  selectedQuality = 'good';
+  document.querySelectorAll('.quality-opt').forEach(opt => {
+    opt.classList.remove('quality-selected');
+  });
+  document.querySelector('[data-quality="good"]').classList.add('quality-selected');
+  
+  // Clear notes
+  document.getElementById('sleep-notes').value = '';
+}
+
+function closeSleepModal() {
+  document.getElementById('sleep-modal').classList.remove('open');
+}
+
+function selectQuality(el, quality) {
+  selectedQuality = quality;
+  document.querySelectorAll('.quality-opt').forEach(opt => {
+    opt.classList.remove('quality-selected');
+  });
+  el.classList.add('quality-selected');
+}
+
+function calculateSleepHours(bedtime, waketime) {
+  const [bedHour, bedMin] = bedtime.split(':').map(Number);
+  const [wakeHour, wakeMin] = waketime.split(':').map(Number);
+  
+  let bedMinutes = bedHour * 60 + bedMin;
+  let wakeMinutes = wakeHour * 60 + wakeMin;
+  
+  // If wake time is earlier than bedtime, it's the next day
+  if (wakeMinutes < bedMinutes) {
+    wakeMinutes += 24 * 60;
+  }
+  
+  const totalMinutes = wakeMinutes - bedMinutes;
+  return (totalMinutes / 60).toFixed(1);
+}
+
+function saveSleepLog() {
+  const date = document.getElementById('sleep-date').value;
+  const bedtime = document.getElementById('sleep-bedtime').value;
+  const waketime = document.getElementById('sleep-waketime').value;
+  const notes = document.getElementById('sleep-notes').value.trim();
+  
+  if (!date || !bedtime || !waketime) {
+    alert('Please fill in date, bedtime, and wake time');
+    return;
+  }
+  
+  const hours = calculateSleepHours(bedtime, waketime);
+  
+  // Check if log already exists for this date
+  const existingIndex = sleepDatabase.logs.findIndex(log => log.date === date);
+  
+  const sleepLog = {
+    id: existingIndex >= 0 ? sleepDatabase.logs[existingIndex].id : sleepDatabase.nextId++,
+    date: date,
+    bedtime: bedtime,
+    waketime: waketime,
+    hours: parseFloat(hours),
+    quality: selectedQuality,
+    notes: notes,
+    createdAt: new Date().toISOString()
+  };
+  
+  if (existingIndex >= 0) {
+    // Update existing log
+    sleepDatabase.logs[existingIndex] = sleepLog;
+    console.log(`✅ Sleep log updated for ${date}: ${hours} hours (${selectedQuality})`);
+  } else {
+    // Add new log
+    sleepDatabase.logs.push(sleepLog);
+    console.log(`✅ Sleep log added for ${date}: ${hours} hours (${selectedQuality})`);
+  }
+  
+  saveSleepData();
+  updateSleepInsights();
+  closeSleepModal();
+}
+
+function updateSleepInsights() {
+  const sleepCard = document.querySelector('.wc-gold .wc-streak');
+  if (!sleepCard) return;
+  
+  if (sleepDatabase.logs.length === 0) {
+    sleepCard.textContent = 'No sleep data yet';
+    return;
+  }
+  
+  // Get last 7 days of logs
+  const today = new Date();
+  const sevenDaysAgo = new Date(today);
+  sevenDaysAgo.setDate(today.getDate() - 7);
+  
+  const recentLogs = sleepDatabase.logs.filter(log => {
+    const logDate = new Date(log.date);
+    return logDate >= sevenDaysAgo && logDate <= today;
+  });
+  
+  if (recentLogs.length === 0) {
+    sleepCard.textContent = 'No recent sleep data';
+    return;
+  }
+  
+  // Calculate average
+  const totalHours = recentLogs.reduce((sum, log) => sum + log.hours, 0);
+  const avgHours = (totalHours / recentLogs.length).toFixed(1);
+  
+  sleepCard.textContent = `Avg. ${avgHours} hrs this week`;
+  
+  // Update AI insights if needed
+  setTimeout(() => {
+    analyzeTasksAndGenerateAIInsights();
+  }, 500);
+}
+
+// ─── WELLNESS REMINDERS ───────────────────────
+let wellnessReminderSystem = null;
+
+// Initialize wellness reminder system
+function initializeWellnessReminders() {
+  // Create mock Kiro hooks for browser notifications
+  const mockKiroHooks = {
+    sendNotification: async function(notification) {
+      // Request notification permission if needed
+      if ('Notification' in window && Notification.permission === 'default') {
+        await Notification.requestPermission();
+      }
+      
+      // Send browser notification
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const n = new Notification(notification.title, {
+          body: notification.message,
+          icon: '🌸',
+          tag: notification.timestamp
+        });
+        
+        // Auto-close after 10 seconds
+        setTimeout(() => n.close(), 10000);
+      }
+    }
+  };
+  
+  // Initialize the reminder system
+  wellnessReminderSystem = new WellnessReminderSystem(mockKiroHooks);
+  
+  // Start checking for reminders
+  wellnessReminderSystem.startReminderChecking();
+  
+  // Update UI with existing reminders
+  updateRemindersList();
+  
+  console.log('✅ Wellness reminder system initialized');
+}
+
+function openReminderModal() {
+  document.getElementById('reminder-modal').classList.add('open');
+  
+  // Set default time to 9 AM
+  document.getElementById('reminder-time').value = '09:00';
+  document.getElementById('reminder-activity').value = '';
+  document.getElementById('reminder-frequency').value = 'daily';
+}
+
+function closeReminderModal() {
+  document.getElementById('reminder-modal').classList.remove('open');
+}
+
+function saveReminder() {
+  const activity = document.getElementById('reminder-activity').value.trim();
+  const time = document.getElementById('reminder-time').value;
+  const frequency = document.getElementById('reminder-frequency').value;
+  
+  if (!activity) {
+    alert('Please enter an activity');
+    return;
+  }
+  
+  if (!time) {
+    alert('Please select a time');
+    return;
+  }
+  
+  try {
+    // Schedule the reminder
+    wellnessReminderSystem.scheduleReminder(activity, time, frequency);
+    
+    // Update the reminders list in UI
+    updateRemindersList();
+    
+    // Close modal
+    closeReminderModal();
+    
+    // Show success message
+    console.log(`✅ Reminder scheduled: ${activity} at ${time} (${frequency})`);
+    
+    // Request notification permission if not already granted
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('🌸 Reminder Set', {
+            body: `You'll be reminded to ${activity} at ${time}`,
+            icon: '🌸'
+          });
+        }
+      });
+    }
+  } catch (error) {
+    alert('Error scheduling reminder: ' + error.message);
+    console.error('Error scheduling reminder:', error);
+  }
+}
+
+function updateRemindersList() {
+  const reminderPanel = document.querySelector('.reminder-panel .reminder-list');
+  if (!reminderPanel || !wellnessReminderSystem) return;
+  
+  const reminders = wellnessReminderSystem.getActiveReminders();
+  
+  if (reminders.length === 0) {
+    reminderPanel.innerHTML = '<div style="text-align:center;padding:1rem;color:var(--ink-light);font-size:12px;">No reminders scheduled yet. Click "Add Wellness Reminder" to get started.</div>';
+    return;
+  }
+  
+  reminderPanel.innerHTML = reminders.map(reminder => {
+    const frequencyText = {
+      'daily': 'Every day',
+      'weekdays': 'Weekdays',
+      'weekends': 'Weekends',
+      'weekly': 'Weekly (Monday)'
+    }[reminder.frequency] || reminder.frequency;
+    
+    return `
+      <div class="reminder-item">
+        <div class="reminder-info">
+          <div class="reminder-activity">${reminder.activity}</div>
+          <div class="reminder-schedule">
+            <span>⏰ ${reminder.time}</span>
+            <span>•</span>
+            <span>${frequencyText}</span>
+          </div>
+        </div>
+        <div class="reminder-actions">
+          <div class="reminder-toggle ${reminder.enabled ? 'active' : ''}" 
+               onclick="toggleReminder('${reminder.id}')" 
+               title="${reminder.enabled ? 'Disable' : 'Enable'} reminder"></div>
+          <button class="delete-reminder-btn" 
+                  onclick="deleteReminder('${reminder.id}')" 
+                  title="Delete reminder">×</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleReminder(reminderId) {
+  if (!wellnessReminderSystem) return;
+  
+  const reminder = wellnessReminderSystem.reminders.find(r => r.id === reminderId);
+  if (!reminder) return;
+  
+  wellnessReminderSystem.updateReminder(reminderId, { enabled: !reminder.enabled });
+  updateRemindersList();
+  
+  console.log(`Reminder ${reminder.enabled ? 'enabled' : 'disabled'}: ${reminder.activity}`);
+}
+
+function deleteReminder(reminderId) {
+  if (!wellnessReminderSystem) return;
+  
+  if (confirm('Are you sure you want to delete this reminder?')) {
+    wellnessReminderSystem.deleteReminder(reminderId);
+    updateRemindersList();
+    console.log(`Reminder deleted: ${reminderId}`);
+  }
+}
+
+// Test notification function
+function testNotification() {
+  if ('Notification' in window) {
+    if (Notification.permission === 'granted') {
+      new Notification('🌸 Test Notification', {
+        body: 'Notifications are working! You will receive wellness reminders at scheduled times.',
+        icon: '🌸'
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('🌸 Test Notification', {
+            body: 'Notifications are working! You will receive wellness reminders at scheduled times.',
+            icon: '🌸'
+          });
+        } else {
+          alert('Notification permission denied. Please enable notifications in your browser settings to receive wellness reminders.');
+        }
+      });
+    } else {
+      alert('Notification permission denied. Please enable notifications in your browser settings to receive wellness reminders.');
+    }
+  } else {
+    alert('Your browser does not support notifications.');
+  }
+}
+
+// ─── AI CHAT ──────────────────────────────────
+// Advanced AI Agent with contextual memory and task analysis
+let conversationHistory = [];
+let userProfile = {
+  lastInteraction: null,
+  preferredCategories: {},
+  completionPatterns: [],
+  stressIndicators: 0
+};
+
+// Analyze user's task patterns for intelligent insights
+function analyzeTaskPatterns() {
+  const tasks = taskDatabase.tasks;
+  const incompleteTasks = tasks.filter(t => !t.completed);
+  const completedTasks = tasks.filter(t => t.completed);
+  
+  // Pattern analysis
+  const patterns = {
+    totalTasks: incompleteTasks.length,
+    completedToday: completedTasks.filter(t => {
+      const today = new Date().toISOString().split('T')[0];
+      return t.completedDate && t.completedDate.startsWith(today);
+    }).length,
+    
+    // Category distribution
+    workTasks: incompleteTasks.filter(t => t.category === 'work'),
+    homeTasks: incompleteTasks.filter(t => t.category === 'home'),
+    familyTasks: incompleteTasks.filter(t => t.category === 'family'),
+    selfTasks: incompleteTasks.filter(t => t.category === 'self'),
+    
+    // Time analysis
+    today: new Date().toISOString().split('T')[0],
+    overdueTasks: incompleteTasks.filter(t => t.scheduledDate && t.scheduledDate < new Date().toISOString().split('T')[0]),
+    todayTasks: incompleteTasks.filter(t => t.scheduledDate === new Date().toISOString().split('T')[0]),
+    upcomingTasks: incompleteTasks.filter(t => t.scheduledDate && t.scheduledDate > new Date().toISOString().split('T')[0]),
+    unscheduledTasks: incompleteTasks.filter(t => !t.scheduledDate),
+    
+    // Load calculation
+    loadScore: 0
+  };
+  
+  // Calculate mental load
+  const taskCount = patterns.totalTasks;
+  if (taskCount <= 5) patterns.loadScore = taskCount * 6;
+  else if (taskCount <= 10) patterns.loadScore = 30 + ((taskCount - 5) * 8);
+  else if (taskCount <= 20) patterns.loadScore = 70 + ((taskCount - 10) * 2);
+  else patterns.loadScore = Math.min(100, 90 + (taskCount - 20));
+  
+  return patterns;
+}
+
+// Generate specific, actionable recommendations
+function generateActionableAdvice(patterns, userIntent) {
+  const advice = [];
+  
+  // Specific task recommendations
+  if (patterns.overdueTasks.length > 0) {
+    const overdueList = patterns.overdueTasks.slice(0, 3).map(t => `"${t.text}"`).join(', ');
+    advice.push({
+      type: 'urgent',
+      message: `You have ${patterns.overdueTasks.length} overdue tasks: ${overdueList}. Let's reschedule these or decide if they're still necessary.`,
+      action: 'reschedule_overdue'
+    });
+  }
+  
+  if (patterns.selfTasks.length === 0 && patterns.totalTasks > 3) {
+    advice.push({
+      type: 'wellbeing',
+      message: `I notice you have 0 self-care tasks among your ${patterns.totalTasks} tasks. This is a red flag for burnout. Can we add one 15-minute self-care block today?`,
+      action: 'add_selfcare'
+    });
+  }
+  
+  if (patterns.homeTasks.length > 3 || patterns.familyTasks.length > 3) {
+    const delegatable = [...patterns.homeTasks, ...patterns.familyTasks].slice(0, 3);
+    const taskList = delegatable.map(t => `"${t.text}"`).join(', ');
+    advice.push({
+      type: 'delegation',
+      message: `These tasks could be delegated: ${taskList}. Would you like help drafting a message to share these responsibilities?`,
+      action: 'delegate_tasks',
+      tasks: delegatable
+    });
+  }
+  
+  if (patterns.unscheduledTasks.length > 5) {
+    advice.push({
+      type: 'planning',
+      message: `${patterns.unscheduledTasks.length} tasks don't have due dates. Let's schedule the top 3 most important ones to reduce mental clutter.`,
+      action: 'schedule_tasks'
+    });
+  }
+  
+  if (patterns.todayTasks.length > 5) {
+    advice.push({
+      type: 'prioritization',
+      message: `You have ${patterns.todayTasks.length} tasks scheduled for today. That's a lot. Let's identify the top 3 that MUST happen today, and move the rest.`,
+      action: 'prioritize_today'
+    });
+  }
+  
+  if (patterns.workTasks.length > patterns.totalTasks * 0.6) {
+    advice.push({
+      type: 'balance',
+      message: `${patterns.workTasks.length} of your ${patterns.totalTasks} tasks are work-related (${Math.round(patterns.workTasks.length/patterns.totalTasks*100)}%). Work is consuming most of your mental space. What boundaries can we set?`,
+      action: 'work_boundaries'
+    });
+  }
+  
+  return advice;
+}
+
+// Intelligent response generator with specific solutions
+function getAIReply(userMessage) {
+  const tasks = taskDatabase.tasks.filter(t => !t.completed);
+  const totalTasks = tasks.length;
+  
+  // Count tasks by category
+  const workTasks = tasks.filter(t => t.category === 'work').length;
+  const homeTasks = tasks.filter(t => t.category === 'home').length;
+  const familyTasks = tasks.filter(t => t.category === 'family').length;
+  const selfTasks = tasks.filter(t => t.category === 'self').length;
+  
+  // Find overdue tasks
+  const today = new Date().toISOString().split('T')[0];
+  const overdueTasks = tasks.filter(t => t.scheduledDate && t.scheduledDate < today);
+  const completedToday = taskDatabase.tasks.filter(t => 
+    t.completed && t.completedDate && t.completedDate.startsWith(today)
+  ).length;
+  
+  // Calculate mental load
+  let loadScore = 0;
+  if (totalTasks <= 5) loadScore = totalTasks * 6;
+  else if (totalTasks <= 10) loadScore = 30 + ((totalTasks - 5) * 8);
+  else if (totalTasks <= 20) loadScore = 70 + ((totalTasks - 10) * 2);
+  else loadScore = Math.min(100, 90 + (totalTasks - 20));
+  
+  const message = userMessage.toLowerCase();
+  
+  // Add to conversation history
+  conversationHistory.push({ user: userMessage, timestamp: Date.now() });
+  if (conversationHistory.length > 10) conversationHistory.shift();
+  
+  // Greeting responses
+  if (message.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
+    const greetings = [
+      `Hi! ${totalTasks > 0 ? `I see you have ${totalTasks} tasks on your plate.` : `How are you feeling today?`} How can I support you right now?`,
+      `Hello! ${completedToday > 0 ? `You've already completed ${completedToday} tasks today — that's wonderful!` : `What's on your mind?`}`,
+      `Hey there! ${loadScore >= 70 ? `Your mental load is quite high right now. Let's see how I can help lighten it.` : `I'm here to help. What do you need?`}`
+    ];
+    return greetings[Math.floor(Math.random() * greetings.length)];
+  }
+  
+  // Thank you responses
+  if (message.match(/thank|thanks|appreciate/)) {
+    const thanks = [
+      "You're so welcome. I'm here whenever you need me. 💕",
+      "Of course! Taking care of yourself isn't selfish — it's necessary. I'm proud of you for being here.",
+      "Anytime. You deserve support, and I'm glad I can be here for you."
+    ];
+    return thanks[Math.floor(Math.random() * thanks.length)];
+  }
+  
+  // Overwhelm responses with variety
+  if (message.includes('overwhelm') || message.includes('stressed') || message.includes('too much')) {
+    if (totalTasks === 0) {
+      return "I hear you. Even without tasks on the list, the mental load can feel heavy. Sometimes it's the invisible work — the planning, remembering, coordinating — that weighs most. Would you like to start capturing some of those invisible tasks here?";
+    } else if (totalTasks <= 5) {
+      const responses = [
+        `I hear you. You have ${totalTasks} tasks visible right now, but I know there's more you're carrying mentally. Being overwhelmed is a signal, not a failure. Let's take one slow breath together, and then tell me: what's the ONE thing that feels most urgent right now?`,
+        `${totalTasks} tasks might not seem like a lot, but I understand — it's not just about the number. It's the weight of responsibility, the mental juggling, the invisible labor. What's making this feel heavy right now?`,
+        `You have ${totalTasks} tasks, and you're feeling overwhelmed. That's valid. Sometimes even a few tasks can feel like too much when you're already carrying so much emotionally. What would help most right now?`
+      ];
+      return responses[Math.floor(Math.random() * responses.length)];
+    } else if (loadScore >= 70) {
+      const responses = [
+        `I see you. With ${totalTasks} tasks across your lists, your mental load score is ${Math.round(loadScore)}% — that's high. You're carrying more than one person should. Let's do this together: take one slow breath, and tell me which task feels heaviest right now. We'll start there.`,
+        `${totalTasks} tasks is a lot. Your mental load is at ${Math.round(loadScore)}%, which is in the high zone. You're not failing — you're overloaded. What if we looked at what could be delegated, deferred, or dropped?`,
+        `I can see why you're overwhelmed. ${totalTasks} tasks across work, home, family, and self-care — that's a significant load. Let's break this down together. Which area feels most urgent?`
+      ];
+      return responses[Math.floor(Math.random() * responses.length)];
+    } else {
+      return `I hear you. You have ${totalTasks} tasks on your plate. Even when the number seems manageable, the emotional weight can be heavy. What's making you feel overwhelmed right now? Is it the tasks themselves, or something else?`;
+    }
+  }
+  
+  // Delegation responses
+  if (message.includes('delegate') || message.includes('help with tasks') || message.includes('share the load')) {
+    if (totalTasks === 0) {
+      return "I'd love to help you delegate, but I don't see any tasks in your list yet. Once you add tasks, I can help identify which ones don't need to be done by you. Would you like to start adding tasks now?";
+    } else if (homeTasks > 0 || familyTasks > 0) {
+      const delegatableTasks = tasks.filter(t => t.category === 'home' || t.category === 'family').slice(0, 3);
+      if (delegatableTasks.length > 0) {
+        const taskList = delegatableTasks.map(t => `"${t.text}"`).join(', ');
+        return `Looking at your list, I see ${homeTasks + familyTasks} home and family tasks. Here are some that don't need to be done by you: ${taskList}. Would you like me to help you draft a kind message to ask someone to take these on? It takes less than a minute.`;
+      }
+    }
+    return `You have ${totalTasks} tasks total. Delegation is powerful — it's not about doing less, it's about protecting your energy for what matters most. Which tasks feel like they could be done by someone else?`;
+  }
+  
+  // Planning responses
+  if ((message.includes('plan') || message.includes('schedule') || message.includes('organize')) && 
+      (message.includes('week') || message.includes('day') || message.includes('time'))) {
+    if (totalTasks === 0) {
+      return "I'd love to help you plan, but your task list is empty right now. Let's start by capturing what's on your mind. What do you need to get done this week?";
+    } else {
+      const tasksWithDates = tasks.filter(t => t.scheduledDate).length;
+      const tasksWithoutDates = totalTasks - tasksWithDates;
+      
+      if (selfTasks === 0 && totalTasks > 3) {
+        return `Your week has ${totalTasks} tasks across work, home, and family — but I notice you don't have any self-care tasks yet. That's unsustainable. Before we plan anything else, can we protect some time just for you? Even 15 minutes matters.`;
+      } else if (tasksWithoutDates > 0) {
+        return `You have ${totalTasks} tasks, and ${tasksWithoutDates} of them don't have due dates yet. Let's add dates to help you see your week clearly. Which tasks need to happen first?`;
+      } else {
+        return `Looking at your ${totalTasks} tasks, they're spread across the week. ${selfTasks > 0 ? `I'm glad to see ${selfTasks} self-care tasks in there.` : 'Consider adding some self-care time.'} What feels most important to focus on first?`;
+      }
+    }
+  }
+  
+  // Self-care / break responses
+  if (message.includes('5 minutes') || message.includes('break') || message.includes('breathe') || 
+      message.includes('time for me') || message.includes('self care')) {
+    const responses = [
+      "Absolutely. Close your eyes if you can. We're going to do one round of 4-7-8 breathing together.\n\nInhale through your nose for 4 counts... hold for 7... and slowly exhale for 8.\n\nYou're not behind. You're right here. Take as long as you need.",
+      "Yes. You deserve this moment. Let's breathe together:\n\nBreathe in slowly for 4... hold for 7... and release for 8.\n\nYour worth isn't measured by your productivity. You're enough, right now, exactly as you are.",
+      "Of course. Taking 5 minutes for yourself isn't selfish — it's essential. Let's do a quick grounding exercise:\n\nName 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, and 1 you can taste.\n\nYou're here. You're present. That's enough."
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+  
+  // Progress / completion acknowledgment
+  if (message.includes('done') || message.includes('finished') || message.includes('completed')) {
+    if (completedToday > 0) {
+      return `You've completed ${completedToday} ${completedToday === 1 ? 'task' : 'tasks'} today! That's real progress. ${totalTasks > 0 ? `You still have ${totalTasks} tasks, but look at what you've already accomplished.` : `And your list is clear now — well done!`} How are you feeling?`;
+    } else {
+      return `Every task you complete matters, even if it doesn't feel like much. Progress isn't always visible, but it's real. What did you finish?`;
+    }
+  }
+  
+  // Tired / exhausted responses
+  if (message.includes('tired') || message.includes('exhaust') || message.includes('drained') || message.includes('burnout')) {
+    const responses = [
+      `I hear you. Tiredness isn't just physical — it's emotional, mental, and often invisible. ${loadScore >= 70 ? `With a mental load of ${Math.round(loadScore)}%, no wonder you're exhausted.` : `You're carrying a lot, even if it doesn't show on paper.`} What would help you rest right now?`,
+      `Being tired is your body and mind telling you something important. ${totalTasks > 5 ? `You have ${totalTasks} tasks pulling at you.` : `Even with fewer tasks, the weight can be heavy.`} What's one thing you could let go of today?`,
+      `Exhaustion is real, and it's valid. You don't have to push through. ${selfTasks === 0 ? `I notice you don't have any self-care tasks — can we add one small thing just for you?` : `What would genuine rest look like for you right now?`}`
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+  
+  // Help / capabilities question
+  if (message.includes('help') || message.includes('what can you do') || message.includes('how do you work')) {
+    return `I'm here to help lighten your mental load. I can:\n\n• Analyze your ${totalTasks} ${totalTasks === 1 ? 'task' : 'tasks'} and suggest priorities\n• Help you identify tasks to delegate\n• Remind you to protect time for yourself\n• Listen when you need to talk\n• Guide you through breathing exercises\n• Provide insights about your task patterns\n\nWhat would help most right now?`;
+  }
+  
+  // Overdue tasks
+  if (overdueTasks.length > 0 && (message.includes('overdue') || message.includes('late') || message.includes('behind'))) {
+    return `You have ${overdueTasks.length} ${overdueTasks.length === 1 ? 'task' : 'tasks'} past their due date. That's okay — life happens, and you're not failing. Would you like to reschedule them, or should we talk about which ones might not need to happen at all?`;
+  }
+  
+  // Default empathetic responses with variety based on load
+  if (loadScore >= 70) {
+    const responses = [
+      "Thank you for sharing that with me. You're carrying a lot — and you're doing it so quietly. Let's figure out what we can take off your plate today. What feels most urgent right now?",
+      "I see you. Managing this much takes real strength, but you don't have to do it alone. What's the one thing that would make today feel more manageable?",
+      "You're juggling so much right now. It's okay to feel however you're feeling. What do you need most in this moment?"
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  } else if (loadScore >= 40) {
+    const responses = [
+      "I see you. Managing everything on your plate takes real strength. What's the one thing you most need to happen today to feel okay?",
+      "You're doing more than you realize. What's on your mind right now?",
+      "I'm here with you. What would make today feel a little lighter?"
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  } else if (totalTasks > 0) {
+    const responses = [
+      "I'm here with you. You don't have to have it all figured out. Let's start small — what's on your mind right now?",
+      "You're managing things well. How can I support you today?",
+      "I'm listening. What would be most helpful for you right now?"
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  } else {
+    const responses = [
+      "I'm here to listen and support you. Whether you want to talk about what's on your mind, plan your week, or just take a moment to breathe — I'm here. What do you need right now?",
+      "Your task list is clear right now. How are you feeling? Is there anything on your mind you'd like to talk about?",
+      "I'm here for you. What would be most helpful right now?"
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+}
+
+function sendSuggestion(el) {
+  const text = el.textContent;
+  appendMsg('user', text);
+  el.remove();
+  setTimeout(() => {
+    showTyping();
+    setTimeout(() => {
+      removeTyping();
+      const reply = getAIReply(text);
+      appendMsg('ai', reply);
+    }, 1800);
+  }, 300);
+}
+
+// Update AI suggestion chips based on current task state
+function updateAISuggestions() {
+  const suggestionsContainer = document.getElementById('ai-suggestions');
+  if (!suggestionsContainer) return;
+  
+  const tasks = taskDatabase.tasks.filter(t => !t.completed);
+  const totalTasks = tasks.length;
+  
+  // Calculate mental load
+  let loadScore = 0;
+  if (totalTasks <= 5) loadScore = totalTasks * 6;
+  else if (totalTasks <= 10) loadScore = 30 + ((totalTasks - 5) * 8);
+  else if (totalTasks <= 20) loadScore = 70 + ((totalTasks - 10) * 2);
+  else loadScore = Math.min(100, 90 + (totalTasks - 20));
+  
+  const selfTasks = tasks.filter(t => t.category === 'self').length;
+  const homeTasks = tasks.filter(t => t.category === 'home').length;
+  const familyTasks = tasks.filter(t => t.category === 'family').length;
+  
+  // Clear existing suggestions
+  suggestionsContainer.innerHTML = '';
+  
+  // Generate contextual suggestions
+  const suggestions = [];
+  
+  if (totalTasks === 0) {
+    suggestions.push("How can you help me?");
+    suggestions.push("I need 5 minutes for me");
+  } else {
+    if (loadScore >= 70) {
+      suggestions.push("I'm overwhelmed");
+    }
+    
+    if (homeTasks > 0 || familyTasks > 0) {
+      suggestions.push("Help me delegate tasks");
+    }
+    
+    if (totalTasks > 3) {
+      suggestions.push("Plan my week");
+    }
+    
+    if (selfTasks === 0 && totalTasks > 2) {
+      suggestions.push("I need time for myself");
+    } else {
+      suggestions.push("I need 5 minutes for me");
+    }
+  }
+  
+  // Create suggestion chips
+  suggestions.forEach(text => {
+    const chip = document.createElement('div');
+    chip.className = 'suggestion-chip';
+    chip.textContent = text;
+    chip.onclick = function() { sendSuggestion(this); };
+    suggestionsContainer.appendChild(chip);
+  });
+}
+
+// ─── AI TASK ANALYSIS ─────────────────────────
+function analyzeTasksAndGenerateAIInsights() {
+  const aiMessages = document.getElementById('ai-messages');
+  if (!aiMessages) return;
+  
+  // Clear existing messages
+  aiMessages.innerHTML = '';
+  
+  // Update suggestion chips
+  updateAISuggestions();
+  
+  // Get task statistics
+  const tasks = taskDatabase.tasks.filter(t => !t.completed);
+  const totalTasks = tasks.length;
+  
+  if (totalTasks === 0) {
+    // Welcome message when no tasks
+    appendMsg('ai', "Hi! I'm here to help you manage your mental load. Start by adding tasks in the Mental Load Tracker, and I'll provide personalized insights based on what you're juggling.");
+    return;
+  }
+  
+  // Count tasks by category
+  const workTasks = tasks.filter(t => t.category === 'work').length;
+  const homeTasks = tasks.filter(t => t.category === 'home').length;
+  const familyTasks = tasks.filter(t => t.category === 'family').length;
+  const selfTasks = tasks.filter(t => t.category === 'self').length;
+  
+  // Count tasks with dates
+  const tasksWithDates = tasks.filter(t => t.scheduledDate).length;
+  const tasksWithoutDates = totalTasks - tasksWithDates;
+  
+  // Find overdue tasks
+  const today = new Date().toISOString().split('T')[0];
+  const overdueTasks = tasks.filter(t => t.scheduledDate && t.scheduledDate < today);
+  
+  // Generate first insight message
+  let firstMessage = '';
+  if (totalTasks === 1) {
+    firstMessage = `I see you've added your first task! That's a great start. Adding tasks here helps you see everything in one place instead of keeping it all in your head.`;
+  } else if (totalTasks <= 5) {
+    firstMessage = `You have ${totalTasks} tasks on your plate right now. That's manageable! Let me know if you need help prioritizing or scheduling them.`;
+  } else if (totalTasks <= 10) {
+    firstMessage = `I can see you're managing ${totalTasks} tasks across different areas of your life. You're staying organized, which is great.`;
+  } else if (totalTasks <= 20) {
+    firstMessage = `You have ${totalTasks} tasks right now — that's quite a bit to juggle. Let's make sure you're not carrying too much alone.`;
+  } else {
+    firstMessage = `I notice you have ${totalTasks} tasks across your lists. That's a significant mental load. It might be time to think about what can be delegated, deferred, or dropped.`;
+  }
+  
+  appendMsg('ai', firstMessage);
+  
+  // Generate second insight based on category distribution
+  setTimeout(() => {
+    let categoryInsight = '';
+    
+    if (selfTasks === 0 && totalTasks > 3) {
+      categoryInsight = `I notice you don't have any self-care tasks yet. With ${totalTasks} tasks for work, home, and family, it's important to protect time for yourself too. Want to add something just for you?`;
+    } else if (selfTasks > 0 && selfTasks >= (totalTasks * 0.3)) {
+      categoryInsight = `I love that ${selfTasks} of your ${totalTasks} tasks are for self-care. You're prioritizing yourself, and that's so important.`;
+    } else if (workTasks > (totalTasks * 0.5)) {
+      categoryInsight = `${workTasks} of your ${totalTasks} tasks are work-related. That's more than half your mental load. Are there any work tasks that could be delegated or postponed?`;
+    } else if (homeTasks > (totalTasks * 0.4)) {
+      categoryInsight = `I see ${homeTasks} home management tasks on your list. That's a lot of invisible labor. Is there anyone who could help share this load?`;
+    } else if (familyTasks > (totalTasks * 0.3)) {
+      categoryInsight = `You have ${familyTasks} family-related tasks. Caring for others is important, but remember — you can't pour from an empty cup.`;
+    } else {
+      categoryInsight = `Your tasks are spread across work (${workTasks}), home (${homeTasks}), family (${familyTasks}), and self-care (${selfTasks}). That's a balanced approach.`;
+    }
+    
+    appendMsg('ai', categoryInsight);
+  }, 800);
+  
+  // Generate third insight about dates and deadlines
+  setTimeout(() => {
+    let dateInsight = '';
+    
+    if (overdueTasks.length > 0) {
+      dateInsight = `I notice ${overdueTasks.length} ${overdueTasks.length === 1 ? 'task has' : 'tasks have'} passed their due date. It's okay — life happens. Would you like help rescheduling or prioritizing them?`;
+    } else if (tasksWithDates > 0 && tasksWithoutDates > 0) {
+      dateInsight = `You've set due dates for ${tasksWithDates} tasks, which is great for planning. The other ${tasksWithoutDates} ${tasksWithoutDates === 1 ? 'task is' : 'tasks are'} flexible, giving you breathing room.`;
+    } else if (tasksWithDates === totalTasks) {
+      dateInsight = `All your tasks have due dates. You're organized! Just remember to be kind to yourself if things don't go exactly as planned.`;
+    } else if (tasksWithoutDates === totalTasks && totalTasks > 3) {
+      dateInsight = `None of your tasks have due dates yet. That's fine for flexibility, but adding dates to urgent ones can help you prioritize.`;
+    }
+    
+    if (dateInsight) {
+      appendMsg('ai', dateInsight);
+    }
+  }, 1600);
+}
+
+function sendMsg() {
+  const input = document.getElementById('ai-input');
+  const text = input.value.trim();
+  if (!text) return;
+  appendMsg('user', text);
+  input.value = '';
+  input.style.height = 'auto';
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    const reply = getAIReply(text);
+    appendMsg('ai', reply);
+  }, 1600 + Math.random() * 800);
+}
+
+function appendMsg(type, text) {
+  const msgs = document.getElementById('ai-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `
+    <div class="msg-icon">${type === 'ai' ? '🌸' : 'P'}</div>
+    <div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('ai-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.id = 'typing-indicator';
+  div.innerHTML = '<div class="msg-icon">🌸</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+// ─── CALENDAR AUTOMATION ──────────────────────
+// Calendar automation is now handled by automation-init.js
+// The global HerFlowAutomation object provides access to all components
+
+// Initialize task storage and calendar sync on page load
+window.addEventListener('DOMContentLoaded', function() {
+  // Load tasks from localStorage first
+  loadTasksFromStorage();
+  
+  // Load sleep data from localStorage
+  loadSleepData();
+  updateSleepInsights();
+  
+  // Initialize wellness reminder system
+  initializeWellnessReminders();
+  
+  // Generate AI insights based on loaded tasks
+  setTimeout(() => {
+    analyzeTasksAndGenerateAIInsights();
+  }, 300);
+  
+  // Wait for tasks to be loaded, then sync to calendar
+  setTimeout(() => {
+    syncTasksToCalendar();
+    console.log('📅 Initial calendar sync complete');
+  }, 500);
+});
+</script>
+
+<!-- Calendar Automation Scripts -->
+<script src="js/calendar-agent-adapter.js"></script>
+<script src="js/calendar-automation.js"></script>
+
+<!-- Wellness Reminder Scripts -->
+<script src="js/wellness-reminders.js"></script>
+<script src="js/wellness-reminders-ui.js"></script>
+
+<!-- Mental Load Agent Scripts -->
+<script src="js/mental-load-agent.js"></script>
+<script src="js/mental-load-ui.js"></script>
+
+<!-- Task Automation Agent Scripts -->
+<script src="js/task-automation-agent.js"></script>
+
+<!-- Automation Configuration -->
+<script src="js/automation-config.js"></script>
+
+<!-- Main Automation Initialization -->
+<script src="js/automation-init.js"></script>
+
+</body>
+</html>

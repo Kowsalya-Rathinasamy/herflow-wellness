@@ -1,0 +1,37 @@
+{
+  "name": "herflow-wellness-automation",
+  "version": "1.0.0",
+  "description": "Women's Mental Load & Wellness Manager with AI automation",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "wellness",
+    "mental-load",
+    "automation",
+    "calendar",
+    "ai"
+  ],
+  "author": "Kowsalya",
+  "license": "MIT",
+  "devDependencies": {
+    "fast-check": "^4.6.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.3.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "js/**/*.js",
+      "!js/**/*.test.js",
+      "!js/**/*.property.test.js"
+    ],
+    "testMatch": [
+      "**/*.test.js"
+    ]
+  }
+}
