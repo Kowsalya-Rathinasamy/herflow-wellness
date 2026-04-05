@@ -1,5 +1,3 @@
-<img width="1166" height="1644" alt="Screenshot 2026-04-05 160642" src="https://github.com/user-attachments/assets/e1de501b-75c1-412b-bf2e-b961b58f6983" />
-
 ![herflow_poster_elegant_silhouette](https://github.com/user-attachments/assets/920e8705-2793-4455-8714-72ab7eceb3c9)# HerFlow - Women's Mental Load & Wellness Manager
 
 ![HerFlow Banner](https://img.shields.io/badge/AI--DLC-Hackathon-pink?style=for-the-badge)
