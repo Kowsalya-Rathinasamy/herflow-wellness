@@ -18,7 +18,7 @@ HerFlow is an AI-powered wellness platform designed specifically for women juggl
 **Developer:** Kowsalya
 
 --- 
- ![Uploading herflo<svg width="100%" viewBox="0 0 680 970" xmlns="http://www.w3.org/2000/svg">
+ ![<svg width="100%" viewBox="0 0 680 970" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%">
       <stop offset="0%" stop-color="#FBEAF0"/>
@@ -172,7 +172,7 @@ HerFlow is an AI-powered wellness platform designed specifically for women juggl
 
   <text x="340" y="930" text-anchor="middle" font-family="Georgia, serif" font-size="13" letter-spacing="2.5" fill="#993556" fill-opacity="0.7" style="fill:rgb(153, 53, 86);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:13px;font-weight:400;text-anchor:middle;dominant-baseline:auto">WOMEN'S MENTAL WELLNESS JOURNEY</text>
   <line x1="80" y1="945" x2="600" y2="945" stroke="#D4537E" stroke-width="0.6" stroke-opacity="0.4" style="fill:rgb(0, 0, 0);stroke:rgb(212, 83, 126);color:rgb(255, 255, 255);stroke-width:0.6px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-</svg>w_poster_elegant_silhouette.svg…]()
+</svg>]()
 
 
 ## ✨ Key Features
