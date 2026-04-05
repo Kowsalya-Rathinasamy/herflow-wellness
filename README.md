@@ -51,7 +51,7 @@ HerFlow is an AI-powered wellness platform designed specifically for women juggl
 
 ## 🚀 Live Demo
 
-**https://kowsalya-rathinasamy.github.io/herflow-wellness/(#)** _(Add your deployed URL here)_
+https://kowsalya-rathinasamy.github.io/herflow-wellness/ 
 
 ---
 
